@@ -15,13 +15,17 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <About />
-        <Divisions />
+        <div className="w-[100%] md:w-full mx-auto">
+          <About />
+          <Divisions />
+        </div>
         <Purpose />
-        <WhyJoin />
-        <Activities />
-        <Membership />
-        <Contact />
+        <div className="w-[100%] md:w-full mx-auto">
+          <WhyJoin />
+          <Activities />
+          <Membership />
+          <Contact />
+        </div>
       </main>
       <Footer />
     </>

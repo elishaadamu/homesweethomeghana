@@ -38,23 +38,39 @@ export default function About() {
             </p>
 
             {/* Core Values */}
-            <div className="bg-white rounded-2xl p-7 shadow-sm border-l-4 border-hsh-orange">
-              <h4 className="font-outfit font-bold text-lg text-hsh-navy-dark mb-1 flex items-center gap-2">
-                <Icon.Users className="w-5 h-5 text-hsh-orange" />
-                Our Core Pillars
-              </h4>
-              <p className="text-hsh-muted text-sm leading-relaxed mb-4">
-                Guiding principles that define our relationships within the global network.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {["Kindness", "Togetherness", "Integrity", "Love", "Service"].map((v) => (
-                  <span
-                    key={v}
-                    className="bg-hsh-off-white text-hsh-dark-text border border-hsh-navy/10 px-3 py-1.5 rounded-lg text-sm font-semibold font-outfit shadow-sm"
-                  >
-                    {v}
-                  </span>
-                ))}
+            <div className="relative p-8 rounded-3xl bg-gradient-to-br from-white to-hsh-off-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white mt-8 overflow-hidden">
+              {/* Decorative background element */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-hsh-orange/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-hsh-orange to-amber-400 flex items-center justify-center text-white shadow-lg shadow-hsh-orange/20">
+                    <Icon.Heart className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-outfit font-black text-2xl text-hsh-navy-dark tracking-tight">
+                      Our Core Pillars
+                    </h4>
+                  </div>
+                </div>
+                
+                <p className="text-hsh-muted text-base leading-relaxed mb-6">
+                  Guiding principles that define our relationships within the global network.
+                </p>
+                
+                <div className="flex flex-wrap gap-3">
+                  {["Kindness", "Togetherness", "Integrity", "Love", "Service"].map((v) => (
+                    <div
+                      key={v}
+                      className="group relative px-6 py-2.5 rounded-full bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-hsh-orange to-amber-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                      <span className="relative font-outfit font-bold text-hsh-navy-dark group-hover:text-hsh-orange transition-colors">
+                        {v}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

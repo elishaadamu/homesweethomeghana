@@ -68,28 +68,30 @@ function CheckCard({ label, checked, onChange }: { label: string; checked: boole
 function ProgressBar({ step }: { step: number }) {
   const steps = ["Personal Info", "Membership", "Emergency", "Declaration"];
   return (
-    <div className="flex items-center gap-0 mb-10">
-      {steps.map((s, i) => (
-        <div key={s} className={`flex items-center ${i < steps.length - 1 ? "flex-1" : "shrink-0"}`}>
-          <div className="flex flex-col items-center gap-1.5 relative z-10">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[0.72rem] font-black transition-all duration-300 ${
-              i <= step ? "bg-hsh-navy text-white" : "bg-[#E2E8F4] text-hsh-muted"
-            } ${i === step ? "ring-4 ring-hsh-cyan/20" : ""}`}>
-              {i + 1}
+    <div className="w-full overflow-x-auto hide-scrollbar -mx-6 px-6 sm:mx-0 sm:px-0 mb-10 pb-4 sm:pb-0">
+      <div className="flex items-center gap-0 min-w-[500px] sm:min-w-0">
+        {steps.map((s, i) => (
+          <div key={s} className={`flex items-center ${i < steps.length - 1 ? "flex-1" : "shrink-0"}`}>
+            <div className="flex flex-col items-center gap-1.5 relative z-10">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[0.72rem] font-black transition-all duration-300 ${
+                i <= step ? "bg-hsh-navy text-white" : "bg-[#E2E8F4] text-hsh-muted"
+              } ${i === step ? "ring-4 ring-hsh-cyan/20" : ""}`}>
+                {i + 1}
+              </div>
+              <span className={`text-[0.6rem] font-semibold tracking-[0.04em] whitespace-nowrap transition-colors duration-300 ${
+                i <= step ? "text-hsh-navy" : "text-hsh-muted"
+              }`}>
+                {s}
+              </span>
             </div>
-            <span className={`text-[0.6rem] font-semibold tracking-[0.04em] whitespace-nowrap transition-colors duration-300 ${
-              i <= step ? "text-hsh-navy" : "text-hsh-muted"
-            }`}>
-              {s}
-            </span>
+            {i < steps.length - 1 && (
+              <div className={`flex-1 h-[2px] mx-1 mb-[1.2rem] rounded-[1px] transition-colors duration-300 ${
+                i < step ? "bg-hsh-cyan" : "bg-[#E2E8F4]"
+              }`} />
+            )}
           </div>
-          {i < steps.length - 1 && (
-            <div className={`flex-1 h-[2px] mx-1 mb-[1.2rem] rounded-[1px] transition-colors duration-300 ${
-              i < step ? "bg-hsh-cyan" : "bg-[#E2E8F4]"
-            }`} />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -161,7 +163,7 @@ export default function ApplyPage() {
 
       {/* ── Form Container ────────────────────────────── */}
       <main className="bg-hsh-off-white px-6 pb-20">
-        <div className="max-w-[780px] -mt-24 mx-auto relative z-10 bg-white rounded-[20px] shadow-[0_20px_60px_rgba(27,58,143,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-10 pb-12 border border-hsh-navy/5">
+        <div className="max-w-[780px] -mt-12 md:-mt-24 mx-auto relative z-10 bg-white rounded-[20px] shadow-[0_20px_60px_rgba(27,58,143,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-10 pb-12 border border-hsh-navy/5">
           {/* Progress */}
           <ProgressBar step={step} />
 

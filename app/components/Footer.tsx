@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { Icon } from "./Icons";
 
 export default function Footer() {
   return (
@@ -73,21 +74,27 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-5">
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 text-hsh-orange text-lg">📍</div>
+                <div className="mt-0.5 text-hsh-orange flex items-center justify-center">
+                  <Icon.MapPin className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-wider font-bold mb-1">Ghana HQ</div>
                   <a href="tel:+233241617899" className="text-sm text-white/80 no-underline hover:text-white transition-colors">+233 241 617 899</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 text-hsh-cyan text-lg">📍</div>
+                <div className="mt-0.5 text-hsh-cyan flex items-center justify-center">
+                  <Icon.MapPin className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-wider font-bold mb-1">UK Office</div>
                   <a href="tel:+447713136911" className="text-sm text-white/80 no-underline hover:text-white transition-colors">+44 7713 136911</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 text-hsh-gold text-lg">✉️</div>
+                <div className="mt-0.5 text-hsh-gold flex items-center justify-center">
+                  <Icon.Mail className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-wider font-bold mb-1">Email</div>
                   <a href="mailto:homesweethomeghana2@gmail.com" className="text-sm text-white/80 no-underline hover:text-white transition-colors break-all">homesweethomeghana2@gmail.com</a>
