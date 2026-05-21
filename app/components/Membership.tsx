@@ -1,5 +1,6 @@
 "use client";
 import { MdLocationOn, MdPublic, MdBusiness, MdCheck, MdArrowForward } from "react-icons/md";
+import Link from "next/link";
 
 const plans = [
   {
@@ -189,8 +190,8 @@ export default function Membership() {
 
               {/* CTA */}
               <div className="mt-auto pt-4 relative z-10">
-                <a
-                  href="#contact"
+                <Link
+                  href={plan.name === "Corporate Partner" ? "#contact" : `/apply?plan=${encodeURIComponent(plan.name)}`}
                   className={`font-outfit group flex items-center justify-center gap-2 w-full rounded-full py-4 text-center text-sm font-extrabold uppercase tracking-widest transition-all duration-300 ${
                     plan.highlight 
                       ? "bg-gradient-to-r from-hsh-cyan to-hsh-cyan-light text-white shadow-[0_8px_25px_rgba(0,184,212,0.35)] hover:shadow-[0_12px_35px_rgba(0,184,212,0.55)] hover:-translate-y-0.5 hover:scale-[1.01]" 
@@ -201,7 +202,7 @@ export default function Membership() {
                 >
                   <span>{plan.name === "Corporate Partner" ? "Get in Touch" : "Join Now"}</span>
                   <MdArrowForward className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}

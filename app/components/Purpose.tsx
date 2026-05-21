@@ -37,7 +37,7 @@ export default function Purpose() {
           </span>
           <h2 className="font-outfit mt-2 text-white font-black text-4xl md:text-5xl relative z-10">
             Purpose, Mission &{" "}
-            <span className="text-hsh-cyan">
+            <span className="section-title-highlight" style={{color: "#FCD116"}}>
               Vision
             </span>
           </h2>

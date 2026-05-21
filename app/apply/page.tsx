@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -96,13 +97,43 @@ function ProgressBar({ step }: { step: number }) {
   );
 }
 
+/* ── Selected Plan Badge ───────────────────────────────────── */
+function SelectedPlanBadge({ planParam }: { planParam: string | null }) {
+  if (!planParam) return null;
+
+  return (
+    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-hsh-cyan/20 border border-hsh-cyan/30 backdrop-blur-md mt-6">
+      <Icon.Award className="w-4 h-4 text-amber-300" />
+      <span className="text-sm font-semibold tracking-wide text-white">
+        Applying for: <span className="text-amber-300">{planParam}</span>
+      </span>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════
    MAIN PAGE
    ═══════════════════════════════════════════════════════════ */
-export default function ApplyPage() {
+function ApplyFormContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const planParam = searchParams.get("plan");
+
   const [step, setStep] = useState(0);
   const [countries, setCountries] = useState<string[]>([]);
   const [loadingCountries, setLoadingCountries] = useState(true);
+  const [selectedCountry, setSelectedCountry] = useState("");
+
+  const isDiaspora = !planParam && selectedCountry !== "" && selectedCountry !== "Ghana";
+  const derivedPlan = planParam || (selectedCountry === "Ghana" ? "Local Member" : (selectedCountry !== "" ? "Diaspora Member" : null));
+
+  const paypalLinks: Record<string, string> = {
+    "Local Member": "https://paypal.me/placeholder-local",
+    "Diaspora Member": "https://paypal.me/placeholder-diaspora",
+    "Corporate Partner": "https://paypal.me/placeholder-corporate",
+  };
+  const paymentLink = derivedPlan ? (paypalLinks[derivedPlan] || paypalLinks["Local Member"]) : paypalLinks["Local Member"];
 
   /* membership type & interests as sets */
   const [memberType, setMemberType] = useState<Set<string>>(new Set());
@@ -156,6 +187,7 @@ export default function ApplyPage() {
           <p className="text-white/80 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
             Become a part of the Home Sweet Home Ghana Network and connect with a vibrant community of Ghanaians across the globe.
           </p>
+          <SelectedPlanBadge planParam={derivedPlan} />
         </div>
         
       
@@ -193,8 +225,20 @@ export default function ApplyPage() {
                     </select>
                   </Field>
                   <Field label="Country of Residence">
-                    <select className={`${inputClasses} cursor-pointer`} defaultValue="Ghana">
-                      <option value="">{loadingCountries ? "Loading countries..." : "Select your country"}</option>
+                    <select 
+                      className={`${inputClasses} cursor-pointer`} 
+                      value={selectedCountry}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setSelectedCountry(val);
+                        
+                        const params = new URLSearchParams(searchParams.toString());
+                        const newPlan = val === "Ghana" ? "Local Member" : "Diaspora Member";
+                        params.set("plan", newPlan);
+                        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+                      }}
+                    >
+                      <option value="" disabled>{loadingCountries ? "Loading countries..." : "Select your country"}</option>
                       {countries.map((c) => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </Field>
@@ -318,32 +362,66 @@ export default function ApplyPage() {
               </div>
             )}
 
-            {/* ── Navigation Buttons ──────────────────── */}
-            <div className={`flex items-center mt-10 pt-6 border-t border-[#EEF3FF] ${step === 0 ? "justify-end" : "justify-between"}`}>
-              {step > 0 && (
-                <button type="button" onClick={prev}
-                  className="bg-transparent border-2 border-[#D8E0F0] rounded-full px-7 py-2.5 font-bold text-[0.88rem] text-hsh-navy cursor-pointer flex items-center gap-2 font-outfit transition-all duration-200 hover:border-hsh-navy hover:bg-hsh-navy/5"
-                >
-                  <Icon.ArrowRight className="w-4 h-4 rotate-180" />
-                  Previous
-                </button>
-              )}
+            {/* ═══════ STEP 4: Success & Payment ═══════ */}
+            {step === 4 && (
+              <div className="animate-fade-in-up text-center py-8">
+                <div className="w-20 h-20 bg-hsh-cyan/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Icon.Check className="w-10 h-10 text-hsh-cyan" />
+                </div>
+                <h2 className="font-outfit text-3xl font-black text-hsh-dark-text mb-4">
+                  Application Submitted!
+                </h2>
+                <p className="text-hsh-muted text-[0.95rem] leading-relaxed mb-6 max-w-lg mx-auto">
+                  Thank you for applying to join the Home Sweet Home Ghana Network. 
+                  {isDiaspora && " We noticed you reside outside Ghana, so you'll be joining as a Diaspora Member! "}
+                  Please complete your membership fee payment to finalize your application.
+                </p>
+                
+                <div className="bg-hsh-off-white border-[1.5px] border-[#D8E0F0] rounded-[16px] p-6 mb-8 max-w-sm mx-auto">
+                  <div className="text-xs font-bold uppercase tracking-widest text-hsh-navy mb-2">Membership Type</div>
+                  <div className="font-outfit text-xl font-black text-hsh-dark-text">{derivedPlan}</div>
+                </div>
 
-              {step < 3 ? (
-                <button type="button" onClick={next} className="flex items-center gap-2 rounded-full bg-hsh-orange px-8 py-2.5 font-bold text-[0.9rem] text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95">
-                  Continue
-                  <Icon.ArrowRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button type="button" 
-                  className="flex items-center gap-2 rounded-full bg-hsh-navy px-10 py-3 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95"
-                  onClick={() => alert("Application submitted successfully! We will be in touch.")}
+                <a 
+                  href={paymentLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-orange px-10 py-3.5 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(249,115,22,0.25)]"
                 >
-                  <Icon.Send className="w-4 h-4" />
-                  Submit Application
-                </button>
-              )}
-            </div>
+                  <Icon.Send className="w-5 h-5" />
+                  Pay with PayPal
+                </a>
+              </div>
+            )}
+
+            {/* ── Navigation Buttons ──────────────────── */}
+            {step < 4 && (
+              <div className={`flex items-center mt-10 pt-6 border-t border-[#EEF3FF] ${step === 0 ? "justify-end" : "justify-between"}`}>
+                {step > 0 && (
+                  <button type="button" onClick={prev}
+                    className="bg-transparent border-2 border-[#D8E0F0] rounded-full px-7 py-2.5 font-bold text-[0.88rem] text-hsh-navy cursor-pointer flex items-center gap-2 font-outfit transition-all duration-200 hover:border-hsh-navy hover:bg-hsh-navy/5"
+                  >
+                    <Icon.ArrowRight className="w-4 h-4 rotate-180" />
+                    Previous
+                  </button>
+                )}
+
+                {step < 3 ? (
+                  <button type="button" onClick={next} className="flex items-center gap-2 rounded-full bg-hsh-orange px-8 py-2.5 font-bold text-[0.9rem] text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95">
+                    Continue
+                    <Icon.ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button type="button" 
+                    className="flex items-center gap-2 rounded-full bg-hsh-navy px-10 py-3 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95"
+                    onClick={() => setStep(4)}
+                  >
+                    <Icon.Send className="w-4 h-4" />
+                    Submit Application
+                  </button>
+                )}
+              </div>
+            )}
           </form>
         </div>
 
@@ -354,5 +432,13 @@ export default function ApplyPage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function ApplyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#0A1840]"><p className="text-white">Loading...</p></div>}>
+      <ApplyFormContent />
+    </Suspense>
   );
 }
