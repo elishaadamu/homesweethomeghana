@@ -36,7 +36,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
-      <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <body className="min-h-screen flex flex-col bg-hsh-off-white text-hsh-dark-text">
         {children}
       </body>
     </html>

@@ -5,7 +5,7 @@ const plans = [
     price: "GHC 500",
     period: "per year",
     badge: "Ghana",
-    color: "var(--navy)",
+    color: "#1B3A8F",
     highlight: false,
     features: [
       "Full social club access",
@@ -20,7 +20,7 @@ const plans = [
     price: "GHC 1,000",
     period: "per year",
     badge: "Worldwide",
-    color: "var(--cyan)",
+    color: "#00B8D4",
     highlight: true,
     features: [
       "Everything in Local",
@@ -35,7 +35,7 @@ const plans = [
     price: "Custom",
     period: "partnership",
     badge: "Enterprise",
-    color: "var(--orange)",
+    color: "#F97316",
     highlight: false,
     features: [
       "Tailored partnership package",
@@ -49,205 +49,129 @@ const plans = [
 
 export default function Membership() {
   return (
-    <section id="membership" style={{ background: "var(--light)", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+    <section id="membership" className="bg-hsh-off-white py-24 px-6">
+      <div className="mx-auto max-w-[1100px]">
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <p className="section-label">Become a Member</p>
-          <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-            Membership Plans
+        <div className="text-center mb-16 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[7rem] font-black text-black/[0.03] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
+            MEMBERSHIP
+          </div>
+          <p className="text-xs font-bold tracking-widest uppercase text-hsh-orange relative z-10">Become a Member</p>
+          <h2 className="font-outfit text-5xl md:text-6xl font-black text-hsh-dark-text mt-2 mb-4 relative z-10">
+            Membership <span className="section-title-highlight">Plans</span>
           </h2>
-          <div className="brand-divider" style={{ marginBottom: "1.25rem" }} />
-          <p className="section-subtitle" style={{ maxWidth: "520px", margin: "0 auto" }}>
+          <p className="text-lg text-hsh-muted leading-relaxed max-w-2xl mx-auto relative z-10">
             Choose the membership tier that fits you. Every plan gives you access to
             a warm, purposeful Ghanaian community.
           </p>
         </div>
 
         {/* Cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
-          gap: "2rem",
-          alignItems: "start",
-        }}>
+        <div className="flex flex-col lg:flex-row justify-center gap-8 items-stretch lg:items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              style={{
-                borderRadius: "24px",
-                padding: plan.highlight ? "2.75rem 2rem" : "2.25rem 2rem",
-                background: plan.highlight
-                  ? "linear-gradient(145deg, #0F2460, #1B3A8F)"
-                  : "white",
-                boxShadow: plan.highlight
-                  ? "0 24px 70px rgba(27,58,143,0.3)"
-                  : "0 4px 20px rgba(27,58,143,0.08)",
-                border: plan.highlight
-                  ? "2px solid rgba(0,184,212,0.4)"
-                  : "1px solid rgba(27,58,143,0.08)",
-                position: "relative",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              }}
+              className={`flex-1 w-full relative rounded-[2rem] p-8 md:p-10 flex flex-col transition-all duration-300 hover:-translate-y-1 overflow-hidden ${
+                plan.highlight
+                  ? "bg-hsh-navy-dark shadow-[0_12px_40px_rgba(15,36,96,0.25)] hover:shadow-[0_16px_50px_rgba(15,36,96,0.35)]"
+                  : "bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
+              }`}
             >
               {/* Popular badge */}
               {plan.highlight && (
-                <div style={{
-                  position: "absolute",
-                  top: "-14px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: "linear-gradient(135deg, #F97316, #FBA043)",
-                  color: "white",
-                  padding: "0.3rem 1.25rem",
-                  borderRadius: "50px",
-                  fontSize: "0.72rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  whiteSpace: "nowrap",
-                }}>
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 transform rounded-full bg-hsh-orange px-5 py-1.5 text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap">
                   ✦ Most Popular
                 </div>
               )}
 
               {/* Badge */}
-              <div style={{
-                display: "inline-block",
-                background: `${plan.color}18`,
-                border: `1px solid ${plan.color}44`,
-                color: plan.highlight ? "#00B8D4" : plan.color,
-                padding: "0.3rem 0.85rem",
-                borderRadius: "50px",
-                fontSize: "0.72rem",
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: "1.25rem",
-              }}>{plan.badge}</div>
+              <div
+                className="mb-5 inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
+                style={{
+                  background: `${plan.color}18`,
+                  border: `1px solid ${plan.color}44`,
+                  color: plan.highlight ? "#00B8D4" : plan.color,
+                }}
+              >
+                {plan.badge}
+              </div>
 
-              <h3 style={{
-                fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                fontSize: "1.25rem",
-                fontWeight: 800,
-                color: plan.highlight ? "white" : "var(--dark-text)",
-                marginBottom: "0.5rem",
-              }}>{plan.name}</h3>
+              <h3 className={`font-outfit mb-2 text-xl font-black ${
+                plan.highlight ? "text-white" : "text-hsh-dark-text"
+              }`}>
+                {plan.name}
+              </h3>
 
               {/* Price */}
-              <div style={{ marginBottom: "1.75rem" }}>
-                <span style={{
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontSize: "2.25rem",
-                  fontWeight: 900,
-                  color: plan.highlight ? "#FCD116" : plan.color,
-                }}>{plan.price}</span>
-                <span style={{
-                  color: plan.highlight ? "rgba(255,255,255,0.55)" : "var(--muted)",
-                  fontSize: "0.85rem",
-                  marginLeft: "0.35rem",
-                }}>/ {plan.period}</span>
+              <div className="mb-7">
+                <span
+                  className="font-outfit text-4xl font-black"
+                  style={{ color: plan.highlight ? "#FCD116" : plan.color }}
+                >
+                  {plan.price}
+                </span>
+                <span className={`ml-2 text-sm ${plan.highlight ? "text-white/55" : "text-hsh-muted"}`}>
+                  / {plan.period}
+                </span>
               </div>
 
               {/* Features */}
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.65rem", marginBottom: "2rem" }}>
+              <ul className="mb-8 flex flex-col gap-2.5">
                 {plan.features.map((feat) => (
-                  <li key={feat} style={{
-                    display: "flex",
-                    gap: "0.6rem",
-                    alignItems: "flex-start",
-                    color: plan.highlight ? "rgba(255,255,255,0.8)" : "var(--muted)",
-                    fontSize: "0.9rem",
-                  }}>
-                    <span style={{ color: plan.highlight ? "#00B8D4" : plan.color, flexShrink: 0 }}>✓</span>
+                  <li
+                    key={feat}
+                    className={`flex items-start gap-2.5 text-sm ${
+                      plan.highlight ? "text-white/80" : "text-hsh-muted"
+                    }`}
+                  >
+                    <span
+                      style={{ color: plan.highlight ? "#00B8D4" : plan.color }}
+                      className="flex-shrink-0"
+                    >
+                      ✓
+                    </span>
                     {feat}
                   </li>
                 ))}
               </ul>
 
               {/* CTA */}
-              <a
-                href="#contact"
-                style={{
-                  display: "block",
-                  textAlign: "center",
-                  padding: "0.85rem",
-                  borderRadius: "50px",
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 700,
-                  fontSize: "0.95rem",
-                  textDecoration: "none",
-                  transition: "all 0.2s ease",
-                  background: plan.highlight
-                    ? "linear-gradient(135deg, #F97316, #FBA043)"
-                    : `linear-gradient(135deg, ${plan.color}, ${plan.color}cc)`,
-                  color: "white",
-                  boxShadow: plan.highlight ? "0 6px 20px rgba(249,115,22,0.35)" : "none",
-                }}
-              >
-                {plan.name === "Corporate Partner" ? "Get in Touch" : "Join Now →"}
-              </a>
+              <div className="mt-auto pt-8">
+                <a
+                  href="#contact"
+                  className={`font-outfit block w-full rounded-full py-4 text-center text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
+                    plan.highlight 
+                      ? "bg-hsh-cyan text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5" 
+                      : "bg-[#F4F7FC] text-hsh-navy hover:bg-[#E8EEF8]"
+                  }`}
+                >
+                  {plan.name === "Corporate Partner" ? "Get in Touch" : "Join Now →"}
+                </a>
+              </div>
             </div>
           ))}
         </div>
 
         {/* How to join note */}
-        <div style={{
-          marginTop: "4rem",
-          background: "white",
-          borderRadius: "20px",
-          padding: "2.5rem",
-          boxShadow: "0 4px 20px rgba(27,58,143,0.07)",
-          border: "1px solid rgba(27,58,143,0.07)",
-        }}>
-          <h3 style={{
-            fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-            fontWeight: 800,
-            fontSize: "1.25rem",
-            color: "var(--dark-text)",
-            textAlign: "center",
-            marginBottom: "2rem",
-          }}>How to Join — 3 Simple Steps</h3>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "1.5rem",
-          }}>
+        <div className="mt-16 bg-white rounded-3xl p-10 shadow-sm border border-hsh-navy/7">
+          <h3 className="font-outfit font-black text-2xl text-hsh-dark-text text-center mb-8">
+            How to Join — 3 Simple Steps
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { step: "01", title: "Request the Form", desc: "Contact us to receive the official HSH Network membership form." },
               { step: "02", title: "Pay the Annual Fee", desc: "Complete payment of your applicable annual commitment fee." },
               { step: "03", title: "Participate Actively", desc: "Engage in social and charitable programmes and become part of our family." },
             ].map((s) => (
-              <div key={s.step} style={{ textAlign: "center" }}>
-                <div style={{
-                  width: "52px",
-                  height: "52px",
-                  background: "linear-gradient(135deg, #0F2460, #1B3A8F)",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto 1rem",
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 800,
-                  color: "#FCD116",
-                  fontSize: "0.85rem",
-                }}>{s.step}</div>
-                <h4 style={{
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 700,
-                  color: "var(--dark-text)",
-                  marginBottom: "0.4rem",
-                  fontSize: "0.95rem",
-                }}>{s.title}</h4>
-                <p style={{ color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.6 }}>{s.desc}</p>
+              <div key={s.step} className="text-center">
+                <div className="w-14 h-14 bg-hsh-navy-dark rounded-full flex items-center justify-center mx-auto mb-4 font-outfit font-black text-hsh-gold text-sm">
+                  {s.step}
+                </div>
+                <h4 className="font-outfit font-bold text-hsh-dark-text mb-2 text-base">
+                  {s.title}
+                </h4>
+                <p className="text-hsh-muted text-sm leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>

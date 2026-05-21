@@ -1,9 +1,9 @@
 "use client";
-import { MdFlag, MdRocket, MdPublic } from "react-icons/md";
+import { MdAdjust, MdRocket, MdPublic } from "react-icons/md";
 
 const purposeCards = [
   {
-    Icon: MdFlag,
+    Icon: MdAdjust,
     label: "Our Purpose",
     color: "#00B8D4",
     text: "To unite Ghanaians at home and abroad through friendship, collaboration, cultural pride, and charitable service that positively impacts lives and communities.",
@@ -24,116 +24,56 @@ const purposeCards = [
 
 export default function Purpose() {
   return (
-    <section
-      id="purpose"
-      style={{
-        background: "linear-gradient(145deg, #0A1840 0%, #0F2460 50%, #00617D 100%)",
-        padding: "6rem 1.5rem",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Background decorations */}
-      <div style={{
-        position: "absolute", top: "10%", left: "5%",
-        width: "400px", height: "400px",
-        borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0,184,212,0.08) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", bottom: "10%", right: "5%",
-        width: "300px", height: "300px",
-        borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-
-      <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+    <section id="purpose" className="relative overflow-hidden bg-hsh-navy-dark py-24 px-6">
+      <div className="relative z-10 mx-auto max-w-[1100px]">
         {/* Top label */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
-            <span style={{ color: "#FCD116", fontSize: "1rem" }}>✦</span>
-            <span style={{
-              color: "rgba(255,255,255,0.55)",
-              fontSize: "0.75rem",
-              fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-              letterSpacing: "0.15em",
-              fontWeight: 700,
-              textTransform: "uppercase",
-            }}>Our Foundation</span>
-            <span style={{ color: "#FCD116", fontSize: "1rem" }}>✦</span>
+        <div className="mb-20 text-center relative">
+          {/* Watermark text */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[3.5rem] md:text-[6rem] font-black text-white/[0.04] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
+            FOUNDATION
           </div>
-          <h2 style={{
-            fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-            fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-            fontWeight: 800,
-            color: "white",
-          }}>Purpose, Mission & Vision</h2>
+          <span className="font-outfit text-xs font-bold uppercase tracking-widest text-hsh-cyan relative z-10">
+            Our Foundation
+          </span>
+          <h2 className="font-outfit mt-2 text-white font-black text-4xl md:text-5xl relative z-10">
+            Purpose, Mission &{" "}
+            <span className="text-hsh-cyan">
+              Vision
+            </span>
+          </h2>
         </div>
 
-        {/* Three cards - Square Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "2.5rem",
-        }}>
+        {/* Three cards */}
+        <div className="flex flex-col md:flex-row justify-center gap-8">
           {purposeCards.map((card) => {
             const CardIcon = card.Icon;
             return (
               <div
                 key={card.label}
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: "16px",
-                  padding: "2.5rem 2rem",
-                  color: "white",
-                  textAlign: "center",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  transition: "all 0.3s ease",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-8px)";
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
-                }}
+                className="flex-1 bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
               >
-                <div style={{
-                  width: "70px",
-                  height: "70px",
-                  borderRadius: "12px",
-                  background: `rgba(${card.color === "#00B8D4" ? "0,184,212" : card.color === "#F97316" ? "249,115,22" : "252,209,22"},0.2)`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "1.5rem",
-                  fontSize: "2rem",
-                  color: card.color,
-                  border: `1px solid ${card.color}33`,
-                }}>
-                  <CardIcon size={32} />
+                {/* Background Icon Watermark */}
+                <div
+                  className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none"
+                  style={{ color: card.color }}
+                >
+                  <CardIcon className="w-40 h-40" />
                 </div>
 
-                <h3 style={{
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 800,
-                  fontSize: "1.25rem",
-                  marginBottom: "1rem",
-                  color: card.color,
-                }}>{card.label}</h3>
+                <div className="relative z-10 flex flex-col items-center">
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm"
+                    style={{ background: `${card.color}15`, color: card.color }}
+                  >
+                    <CardIcon className="w-7 h-7" />
+                  </div>
 
-                <p style={{
-                  fontSize: "0.95rem",
-                  lineHeight: 1.7,
-                  color: "rgba(255,255,255,0.8)",
-                }}>{card.text}</p>
+                  <h3 className="font-outfit font-bold text-xl text-hsh-dark-text mb-3">
+                    {card.label}
+                  </h3>
+
+                  <p className="text-hsh-muted text-sm leading-relaxed max-w-[280px]">{card.text}</p>
+                </div>
               </div>
             );
           })}

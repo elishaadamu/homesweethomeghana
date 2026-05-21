@@ -23,79 +23,57 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-      transition: "all 0.3s ease",
-      background: scrolled ? "rgba(15,36,96,0.97)" : "rgba(10,24,64,0.55)",
-      backdropFilter: "blur(16px)",
-      boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.2)" : "none",
-    }}>
-      <nav style={{
-        maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem",
-        height: "76px", display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? "bg-hsh-navy-dark/97 shadow-lg" 
+        : "bg-black/55"
+    } backdrop-blur-2xl`}>
+      <nav className="max-w-5xl mx-auto px-6 h-28 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none" }}>
-          <Image src="/logo.jpeg" alt="HSH Network" width={52} height={52}
-            style={{ borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(0,184,212,0.5)" }} />
+        <Link href="/" className="flex items-center gap-3 no-underline">
+          <Image src="/logo.jpeg" alt="HSH Network" width={100} height={100}
+            className="w-[100px] h-[100px] rounded-full object-cover border-2 border-hsh-cyan/30" />
           <div>
-            <div style={{ fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)", fontWeight: 800, fontSize: "1rem", color: "white", lineHeight: 1.1 }}>HSH NETWORK</div>
-            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.55)", letterSpacing: "0.08em" }}>HOME SWEET HOME GHANA</div>
+            <div className="font-outfit font-black text-xl text-white leading-tight">HSH NETWORK</div>
+            <div className="text-xs text-white/60 tracking-wider">HOME SWEET HOME GHANA</div>
           </div>
         </Link>
 
         {/* Desktop */}
-        <ul style={{ display: "flex", gap: "0.15rem", listStyle: "none", alignItems: "center" }} className="desktop-nav">
+        <ul className="desktop-nav hidden md:flex gap-1 list-none items-center">
           {navLinks.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} style={{
-                color: "rgba(255,255,255,0.82)", textDecoration: "none",
-                fontSize: "0.9rem", fontWeight: 500, padding: "0.4rem 0.9rem",
-                borderRadius: "8px", transition: "all 0.2s ease", display: "block",
-                fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)",
-              }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.82)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-              >{l.label}</Link>
+              <Link href={l.href} className="text-white/82 no-underline text-base font-medium px-2 py-1 rounded-lg transition-all duration-200 block font-outfit hover:text-white hover:bg-white/10">
+                {l.label}
+              </Link>
             </li>
           ))}
           <li>
-            <Link href="/membership" className="btn-orange" style={{ padding: "0.55rem 1.4rem", fontSize: "0.88rem" }}>
+            <Link href="/apply" className="inline-flex items-center gap-2 bg-gradient-to-br from-hsh-orange to-orange-400 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all text-base ml-1">
               Join Now
             </Link>
           </li>
         </ul>
 
         {/* Hamburger */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className="hamburger"
-          style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: "white", padding: "0.5rem" }}>
-          {menuOpen ? <Icon.X style={{ width: 24, height: 24 }} /> : <Icon.Menu style={{ width: 24, height: 24 }} />}
+        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden bg-transparent border-0 cursor-pointer text-white p-2">
+          {menuOpen ? <Icon.X className="w-6 h-6" /> : <Icon.Menu className="w-6 h-6" />}
         </button>
       </nav>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{ background: "rgba(10,24,64,0.98)", backdropFilter: "blur(16px)", padding: "1rem 1.5rem 2rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="md:hidden bg-black/98 backdrop-blur-2xl px-6 py-8 border-t border-white/8">
           {navLinks.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{
-              display: "block", color: "rgba(255,255,255,0.85)", textDecoration: "none",
-              fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)", fontSize: "1rem",
-              fontWeight: 500, padding: "0.85rem 0", borderBottom: "1px solid rgba(255,255,255,0.07)",
-            }}>{l.label}</Link>
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="block text-white/85 no-underline font-outfit text-base font-medium py-3 border-b border-white/7 hover:text-white">
+              {l.label}
+            </Link>
           ))}
-          <Link href="/membership" className="btn-orange" onClick={() => setMenuOpen(false)}
-            style={{ marginTop: "1.25rem", display: "inline-flex", fontSize: "0.95rem" }}>
-            Join Now <Icon.ArrowRight style={{ width: 16, height: 16 }} />
+          <Link href="/apply" className="inline-flex items-center gap-2 bg-gradient-to-br from-hsh-orange to-orange-400 text-white font-bold py-2 px-4 rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm mt-5" onClick={() => setMenuOpen(false)}>
+            Join Now <Icon.ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .hamburger { display: block !important; }
-        }
-      `}</style>
     </header>
   );
 }

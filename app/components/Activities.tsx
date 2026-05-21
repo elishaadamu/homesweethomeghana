@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { MdLocalBar, MdMessage, MdEmojiEvents, MdLocationOn, MdPeople, MdHandshake, MdMenuBook, MdFavoriteBorder, MdLocalHospital } from "react-icons/md";
 
 const tabs = [
@@ -29,60 +30,43 @@ const tabs = [
   },
 ];
 
+const cardColors = ["#1B3A8F", "#00B8D4", "#F97316", "#1B3A8F", "#00B8D4"];
+
 export default function Activities() {
   const [active, setActive] = useState("social");
   const tab = tabs.find((t) => t.id === active)!;
 
   return (
-    <section id="activities" style={{ background: "var(--off-white)", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+    <section id="activities" className="bg-hsh-off-white py-24 px-6 scroll-mt-20">
+      <div className="max-w-4xl mx-auto">
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <p className="section-label">What We Do</p>
-          <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-            Our Activities
+        <div className="text-center mb-16 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[7rem] font-black text-black/[0.03] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
+            ACTIVITIES
+          </div>
+          <p className="text-xs font-bold tracking-widest uppercase text-hsh-orange relative z-10">What We Do</p>
+          <h2 className="font-outfit text-5xl md:text-6xl font-black text-hsh-dark-text mt-2 mb-4 relative z-10">
+            Our <span className="section-title-highlight">Activities</span>
           </h2>
-          <div className="brand-divider" style={{ marginBottom: "1.25rem" }} />
-          <p className="section-subtitle" style={{ maxWidth: "500px", margin: "0 auto" }}>
-            From social gatherings to humanitarian outreach — there is something meaningful for every member.
+          <p className="text-lg text-hsh-muted leading-relaxed max-w-2xl mx-auto relative z-10">
+            From social gatherings to humanitarian outreach, there is something meaningful for every member.
           </p>
         </div>
 
         {/* Tab switcher */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-          marginBottom: "3rem",
-          flexWrap: "wrap",
-        }}>
+        <div className="flex justify-center gap-4 mb-12 flex-wrap">
           {tabs.map((t) => {
             const TabIcon = t.icon;
             return (
               <button
                 key={t.id}
                 onClick={() => setActive(t.id)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.8rem 2rem",
-                  borderRadius: "12px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  transition: "all 0.3s ease",
-                  background: active === t.id
-                    ? "linear-gradient(135deg, #1B3A8F, #0F2460)"
-                    : "white",
-                  color: active === t.id ? "white" : "var(--muted)",
-                  boxShadow: active === t.id
-                    ? "0 8px 24px rgba(27,58,143,0.3)"
-                    : "0 2px 8px rgba(0,0,0,0.06)",
-                }}
+                className={`flex items-center gap-2.5 px-8 py-3 rounded-xl border-0 cursor-pointer font-outfit font-bold text-base transition-all duration-300 ${
+                  active === t.id
+                    ? "bg-hsh-navy text-white shadow-lg"
+                    : "bg-white text-hsh-muted shadow-sm hover:shadow-md"
+                }`}
               >
                 <TabIcon size={20} />
                 {t.label}
@@ -91,68 +75,52 @@ export default function Activities() {
           })}
         </div>
 
-        {/* Activity cards - Square Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          gap: "1.5rem",
-          maxWidth: "800px",
-          margin: "0 auto",
-        }}>
+        {/* Dynamic Banner Image */}
+        <div className="w-full h-64 md:h-[400px] relative rounded-[2rem] overflow-hidden mb-16 shadow-lg border border-black/5 max-w-5xl mx-auto">
+          <Image
+            src={active === "social" ? "/social_club.png" : "/charity_service.png"}
+            alt={tab.label}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="absolute bottom-6 left-8 md:bottom-10 md:left-12">
+            <h3 className="text-white font-outfit font-black text-3xl md:text-4xl">{tab.label}</h3>
+          </div>
+        </div>
+
+        {/* Activity cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {tab.activities.map((act, i) => {
             const IconComponent = act.Icon;
+            const color = cardColors[i];
             return (
               <div
                 key={act.title}
-                className="glass-card"
-                style={{
-                  borderRadius: "16px",
-                  padding: "2rem",
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  transition: "all 0.3s ease",
-                  animationDelay: `${i * 0.07}s`,
-                  cursor: "default",
-                  aspectRatio: "1",
-                  justifyContent: "center",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(27,58,143,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "";
-                }}
+                className="bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
               >
-                {/* Icon container */}
-                <div style={{
-                  width: "60px",
-                  height: "60px",
-                  borderRadius: "12px",
-                  background: `linear-gradient(135deg, rgba(27,58,143,0.12), rgba(0,184,212,0.12))`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "1rem",
-                  fontSize: "1.8rem",
-                  color: "var(--navy-light)",
-                }}>
-                  <IconComponent size={28} />
+                {/* Background Icon Watermark */}
+                <div
+                  className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none"
+                  style={{ color }}
+                >
+                  <IconComponent className="w-40 h-40" />
                 </div>
-                <h3 style={{
-                  fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                  fontWeight: 700,
-                  fontSize: "0.95rem",
-                  color: "var(--dark-text)",
-                  marginBottom: "0.75rem",
-                  lineHeight: 1.3,
-                }}>{act.title}</h3>
-                <p style={{ color: "var(--muted)", fontSize: "0.8rem", lineHeight: 1.5 }}>{act.desc}</p>
+
+                <div className="relative z-10 flex flex-col items-center">
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm"
+                    style={{ background: `${color}15`, color: color }}
+                  >
+                    <IconComponent className="w-7 h-7" />
+                  </div>
+                  <h3 className="font-outfit font-bold text-xl text-hsh-dark-text mb-3">
+                    {act.title}
+                  </h3>
+                  <p className="text-hsh-muted text-sm leading-relaxed max-w-[280px]">
+                    {act.desc}
+                  </p>
+                </div>
               </div>
             );
           })}

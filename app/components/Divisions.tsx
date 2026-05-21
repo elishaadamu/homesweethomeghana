@@ -1,233 +1,87 @@
 "use client";
-import { MdFavorite } from "react-icons/md";
+import { Icon } from "./Icons";
 
 export default function Divisions() {
   return (
-    <section id="divisions" style={{ background: "var(--light)", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <section id="divisions" className="bg-hsh-off-white py-24 px-6">
+      <div className="mx-auto max-w-[1200px]">
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <p className="section-label">Our Structure</p>
-          <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-            Two Powerful Divisions
+        <div className="text-center mb-16 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[7rem] font-black text-black/[0.03] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
+            DIVISIONS
+          </div>
+          <p className="text-xs font-bold tracking-widest uppercase text-hsh-orange relative z-10">Our Structure</p>
+          <h2 className="font-outfit text-5xl md:text-6xl font-black text-hsh-dark-text mt-2 mb-4 relative z-10">
+            Two Powerful <span className="section-title-highlight">Divisions</span>
           </h2>
-          <div className="brand-divider" style={{ marginBottom: "1.25rem" }} />
-          <p className="section-subtitle" style={{ maxWidth: "540px", margin: "0 auto" }}>
-            The Network operates through two key divisions — each serving a distinct and vital purpose
+          <p className="text-lg text-hsh-muted leading-relaxed max-w-2xl mx-auto relative z-10">
+            The Network operates through two key divisions, each serving a distinct and vital purpose
             in our community.
           </p>
         </div>
 
-        {/* Division cards - Square Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: "2.5rem",
-          maxWidth: "900px",
-          margin: "0 auto",
-        }}>
+        {/* Division cards */}
+        <div className="mx-auto max-w-[900px] flex flex-col md:flex-row justify-center gap-10">
 
           {/* Social Club */}
           <div
-            style={{
-              background: "linear-gradient(145deg, #0F2460, #1B3A8F)",
-              borderRadius: "20px",
-              padding: "3rem 2.5rem",
-              color: "white",
-              position: "relative",
-              overflow: "hidden",
-              boxShadow: "0 20px 60px rgba(27,58,143,0.25)",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              display: "flex",
-              flexDirection: "column",
-              textAlign: "center",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-8px)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 28px 70px rgba(27,58,143,0.35)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 60px rgba(27,58,143,0.25)";
-            }}
+            className="flex-1 w-full bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
           >
-            {/* Background decoration */}
-            <div style={{
-              position: "absolute", top: "-40px", right: "-40px",
-              width: "200px", height: "200px",
-              borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(0,184,212,0.2) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }} />
-
-            <div style={{
-              width: "70px", height: "70px",
-              background: "rgba(0,184,212,0.2)",
-              borderRadius: "14px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "2rem",
-              marginBottom: "1.5rem",
-              border: "1px solid rgba(0,184,212,0.3)",
-              margin: "0 auto 1.5rem",
-              color: "#00B8D4",
-            }}>
-
+            {/* Background Icon Watermark */}
+            <div className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none text-hsh-cyan">
+              <Icon.Users className="w-48 h-48" />
             </div>
 
-            <div style={{
-              display: "inline-block",
-              background: "rgba(0,184,212,0.2)",
-              border: "1px solid rgba(0,184,212,0.4)",
-              color: "#00B8D4",
-              padding: "0.35rem 1rem",
-              borderRadius: "8px",
-              fontSize: "0.7rem",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              marginBottom: "1.25rem",
-              width: "fit-content",
-              margin: "0 auto 1.25rem",
-            }}>Community Engagement</div>
+            <div className="relative z-10 flex flex-col items-center h-full">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm bg-hsh-cyan/10 text-hsh-cyan">
+                <Icon.Users className="w-7 h-7" />
+              </div>
 
-            <h3 style={{
-              fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-              fontWeight: 800,
-              fontSize: "1.4rem",
-              marginBottom: "0.85rem",
-            }}>Social Club Division</h3>
+              <div className="mb-4 inline-block rounded-lg border border-hsh-cyan/20 bg-hsh-cyan/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hsh-cyan">
+                Community Engagement
+              </div>
 
-            <p style={{
-              color: "rgba(255,255,255,0.8)",
-              fontSize: "0.95rem",
-              lineHeight: 1.7,
-              marginBottom: "1.5rem",
-              flex: 1,
-            }}>
-              Bringing members together through social gatherings, cultural celebrations, networking events, sports activities, and recreational outings that strengthen community bonds.
-            </p>
+              <h3 className="font-outfit font-bold text-2xl text-hsh-dark-text mb-3">Social Club Division</h3>
 
-            <button style={{
-              background: "linear-gradient(135deg, #00B8D4, #00D9FF)",
-              color: "#0F2460",
-              border: "none",
-              padding: "0.8rem 1.8rem",
-              borderRadius: "8px",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-            }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-              }}
-            >Learn More</button>
+              <p className="flex-1 text-hsh-muted text-sm leading-relaxed max-w-[280px] mb-8">
+                Bringing members together through social gatherings, cultural celebrations, networking events, sports activities, and recreational outings that strengthen community bonds.
+              </p>
+
+              <button className="rounded-full bg-hsh-cyan px-6 py-2.5 font-bold text-hsh-navy-dark shadow-md transition-transform duration-200 hover:-translate-y-0.5 active:scale-95 text-sm mt-auto">
+                Learn More
+              </button>
+            </div>
           </div>
 
           {/* Charity & Service */}
           <div
-            style={{
-              background: "linear-gradient(145deg, #1B3A8F, #2A4FA8)",
-              borderRadius: "20px",
-              padding: "3rem 2.5rem",
-              color: "white",
-              position: "relative",
-              overflow: "hidden",
-              boxShadow: "0 20px 60px rgba(27,58,143,0.25)",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              display: "flex",
-              flexDirection: "column",
-              textAlign: "center",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-8px)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 28px 70px rgba(27,58,143,0.35)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 60px rgba(27,58,143,0.25)";
-            }}
+            className="flex-1 w-full bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
           >
-            {/* Background decoration */}
-            <div style={{
-              position: "absolute", top: "-40px", right: "-40px",
-              width: "200px", height: "200px",
-              borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(249,115,22,0.2) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }} />
-
-            <div style={{
-              width: "70px", height: "70px",
-              background: "rgba(249,115,22,0.2)",
-              borderRadius: "14px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "2rem",
-              marginBottom: "1.5rem",
-              border: "1px solid rgba(249,115,22,0.3)",
-              margin: "0 auto 1.5rem",
-              color: "#F97316",
-            }}>
-              <MdFavorite size={32} />
+            {/* Background Icon Watermark */}
+            <div className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none text-hsh-orange">
+              <Icon.Heart className="w-48 h-48" />
             </div>
 
-            <div style={{
-              display: "inline-block",
-              background: "rgba(249,115,22,0.2)",
-              border: "1px solid rgba(249,115,22,0.4)",
-              color: "#F97316",
-              padding: "0.35rem 1rem",
-              borderRadius: "8px",
-              fontSize: "0.7rem",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              marginBottom: "1.25rem",
-              width: "fit-content",
-              margin: "0 auto 1.25rem",
-            }}>Humanitarian Mission</div>
+            <div className="relative z-10 flex flex-col items-center h-full">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm bg-hsh-orange/10 text-hsh-orange">
+                <Icon.Heart className="w-7 h-7" />
+              </div>
 
-            <h3 style={{
-              fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-              fontWeight: 800,
-              fontSize: "1.4rem",
-              marginBottom: "0.85rem",
-            }}>Charity & Service Division</h3>
+              <div className="mb-4 inline-block rounded-lg border border-hsh-orange/20 bg-hsh-orange/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hsh-orange">
+                Humanitarian Mission
+              </div>
 
-            <p style={{
-              color: "rgba(255,255,255,0.8)",
-              fontSize: "0.95rem",
-              lineHeight: 1.7,
-              marginBottom: "1.5rem",
-              flex: 1,
-            }}>
-              Dedicated to meaningful charitable work including support for disabled individuals, educational scholarships, health initiatives, and spiritual empowerment programmes.
-            </p>
+              <h3 className="font-outfit font-bold text-2xl text-hsh-dark-text mb-3">Charity & Service Division</h3>
 
-            <button style={{
-              background: "linear-gradient(135deg, #F97316, #FB923C)",
-              color: "white",
-              border: "none",
-              padding: "0.8rem 1.8rem",
-              borderRadius: "8px",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-            }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-              }}
-            >Learn More</button>
+              <p className="flex-1 text-hsh-muted text-sm leading-relaxed max-w-[280px] mb-8">
+                Dedicated to meaningful charitable work including support for disabled individuals, educational scholarships, health initiatives, and spiritual empowerment programmes.
+              </p>
+
+              <button className="rounded-full bg-hsh-orange px-6 py-2.5 font-bold text-white shadow-md transition-transform duration-200 hover:-translate-y-0.5 active:scale-95 text-sm mt-auto">
+                Learn More
+              </button>
+            </div>
           </div>
         </div>
       </div>

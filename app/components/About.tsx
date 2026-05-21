@@ -1,122 +1,113 @@
 "use client";
+import { Icon } from "./Icons";
+import Image from "next/image";
+
 export default function About() {
   return (
-    <section id="about" style={{ background: "var(--off-white)", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <section id="about" className="bg-hsh-off-white py-24 px-6 scroll-mt-20">
+      <div className="max-w-5xl mx-auto">
 
         {/* Section header */}
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <p className="section-label">Who We Are</p>
-          <h2 className="section-title" style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-            About HSH Network
+        <div className="text-center mb-16 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[7rem] font-black text-black/[0.03] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
+            ABOUT US
+          </div>
+          <p className="text-xs font-bold tracking-widest uppercase text-hsh-orange relative z-10">Who We Are</p>
+          <h2 className="font-outfit text-5xl md:text-6xl font-black text-hsh-dark-text mt-2 mb-4 relative z-10">
+            About HSH <span className="section-title-highlight">Network</span>
           </h2>
-          <div className="brand-divider" style={{ marginBottom: "1.25rem" }} />
-          <p className="section-subtitle" style={{ maxWidth: "640px", margin: "0 auto" }}>
+          <p className="text-lg text-hsh-muted leading-relaxed max-w-2xl mx-auto relative z-10">
             Home Sweet Home Ghana Network is a vibrant and inclusive community of Ghanaians
             and individuals of Ghanaian heritage living both in Ghana and across the diaspora.
           </p>
         </div>
 
-        {/* Two column layout */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "3rem",
-          alignItems: "center",
-        }}>
-          {/* Left: text */}
-          <div>
-            <p style={{ color: "var(--muted)", lineHeight: 1.8, marginBottom: "1.5rem", fontSize: "1.0625rem" }}>
-              Established to foster meaningful relationships, promote unity, create
-              opportunities, and support impactful charitable causes, HSH Network believes
-              in the power of togetherness, cultural pride, and community service.
-            </p>
-            <p style={{ color: "var(--muted)", lineHeight: 1.8, marginBottom: "2rem", fontSize: "1.0625rem" }}>
-              We provide a welcoming platform where members can connect socially, collaborate
-              professionally, inspire one another, and contribute positively to society. Our
-              Head Office is in Accra, Ghana, with members and representatives across the world.
+        {/* Row 1: Two column layout with Image */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+          {/* Left: Image */}
+          <div className="relative h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-xl border border-hsh-navy/5">
+            <Image src="/about_community.png" alt="Ghanaian Community" fill className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-hsh-navy-dark/40 to-transparent" />
+          </div>
+
+          {/* Right: Text and Core Pillars */}
+          <div className="flex flex-col justify-center">
+            <h3 className="font-outfit text-3xl font-black text-hsh-navy-dark mb-5">Empowering Our Global Community</h3>
+            <p className="text-hsh-muted leading-relaxed text-lg mb-8">
+              HSH Network is built on the power of togetherness. We provide a welcoming platform for Ghanaians worldwide to connect socially, collaborate professionally, and contribute positively to society through meaningful charitable causes.
             </p>
 
-            {/* Core values pills */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
-              {["Kindness", "Togetherness", "Integrity", "Love", "Service"].map((v) => (
-                <span
-                  key={v}
-                  style={{
-                    background: "linear-gradient(135deg, #1B3A8F, #0F2460)",
-                    color: "white",
-                    padding: "0.4rem 1.1rem",
-                    borderRadius: "50px",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {v}
-                </span>
-              ))}
+            {/* Core Values */}
+            <div className="bg-white rounded-2xl p-7 shadow-sm border-l-4 border-hsh-orange">
+              <h4 className="font-outfit font-bold text-lg text-hsh-navy-dark mb-1 flex items-center gap-2">
+                <Icon.Users className="w-5 h-5 text-hsh-orange" />
+                Our Core Pillars
+              </h4>
+              <p className="text-hsh-muted text-sm leading-relaxed mb-4">
+                Guiding principles that define our relationships within the global network.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["Kindness", "Togetherness", "Integrity", "Love", "Service"].map((v) => (
+                  <span
+                    key={v}
+                    className="bg-hsh-off-white text-hsh-dark-text border border-hsh-navy/10 px-3 py-1.5 rounded-lg text-sm font-semibold font-outfit shadow-sm"
+                  >
+                    {v}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Right: feature cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            {[
-              {
-                icon: "🏠",
-                title: "Community First",
-                desc: "A home away from home for every Ghanaian and friend of Ghana, wherever they are.",
-                accent: "var(--navy)",
-              },
-              {
-                icon: "🤝",
-                title: "Unity & Collaboration",
-                desc: "Bridging the gap between Ghanaians at home and in the diaspora through shared purpose.",
-                accent: "var(--cyan)",
-              },
-              {
-                icon: "❤️",
-                title: "Charity & Service",
-                desc: "Actively giving back through outreach, education, health, and humanitarian efforts.",
-                accent: "var(--orange)",
-              },
-            ].map((card) => (
+        {/* Row 2: Core value cards in a horizontal grid */}
+        <div className="about-cards-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              IconComp: Icon.Home,
+              title: "Community First",
+              desc: "A home away from home for every Ghanaian and friend of Ghana, wherever they are.",
+              accent: "#1B3A8F",
+            },
+            {
+              IconComp: Icon.Users,
+              title: "Unity & Collaboration",
+              desc: "Bridging the gap between Ghanaians at home and in the diaspora through shared purpose.",
+              accent: "#00B8D4",
+            },
+            {
+              IconComp: Icon.Heart,
+              title: "Charity & Service",
+              desc: "Actively giving back through outreach, education, health, and humanitarian efforts.",
+              accent: "#F97316",
+            },
+          ].map((card) => (
+            <div
+              key={card.title}
+              className="bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
+            >
+              {/* Background Icon Watermark */}
               <div
-                key={card.title}
-                className="glass-card"
-                style={{
-                  borderRadius: "16px",
-                  padding: "1.25rem 1.5rem",
-                  display: "flex",
-                  gap: "1rem",
-                  alignItems: "flex-start",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                  cursor: "default",
-                  borderLeft: `4px solid ${card.accent}`,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(27,58,143,0.12)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "";
-                }}
+                className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none"
+                style={{ color: card.accent }}
               >
-                <div style={{ fontSize: "1.75rem", flexShrink: 0, marginTop: "0.1rem" }}>{card.icon}</div>
-                <div>
-                  <h3 style={{
-                    fontFamily: "var(--font-outfit, 'Outfit', Arial, sans-serif)",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    color: "var(--dark-text)",
-                    marginBottom: "0.35rem",
-                  }}>{card.title}</h3>
-                  <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.6 }}>{card.desc}</p>
-                </div>
+                <card.IconComp className="w-48 h-48" />
               </div>
-            ))}
-          </div>
+
+              <div className="relative z-10 flex flex-col items-center">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm"
+                  style={{ background: `${card.accent}15`, color: card.accent }}
+                >
+                  <card.IconComp className="w-7 h-7" />
+                </div>
+                <h3 className="font-outfit font-bold text-xl text-hsh-dark-text mb-3">
+                  {card.title}
+                </h3>
+                <p className="text-hsh-muted text-sm leading-relaxed max-w-[280px]">{card.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

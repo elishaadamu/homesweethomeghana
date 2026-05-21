@@ -5,84 +5,66 @@ import { Icon } from "./Icons";
 
 export default function Hero() {
   return (
-    <section style={{
-      minHeight: "100vh",
-      background: "linear-gradient(145deg, #0A1840 0%, #0F2460 40%, #0D3F7F 70%, #00617D 100%)",
-      display: "flex", alignItems: "center", position: "relative", overflow: "hidden",
-    }}>
+    <section className="min-h-screen bg-[#0A1840] flex items-center relative overflow-hidden">
       {/* Background image overlay */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <Image src="/flyer2.jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "center top" }} priority />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(145deg, rgba(10,24,64,0.90) 0%, rgba(15,36,96,0.85) 40%, rgba(0,97,125,0.82) 100%)" }} />
+      <div className="absolute inset-0 z-0">
+        <Image src="/hero_banner.png" alt="" fill className="object-cover object-top" priority />
+        <div className="absolute inset-0 bg-black/[0.82]" />
       </div>
 
-      {/* Dot grid */}
-      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "40px 40px", zIndex: 1, pointerEvents: "none" }} />
-
       {/* Content */}
-      <div style={{ maxWidth: "1200px", width: "100%", margin: "0 auto", padding: "0 1.5rem", paddingTop: "100px", paddingBottom: "5rem", position: "relative", zIndex: 2 }}>
-        <div style={{ maxWidth: "680px" }}>
+      <div className="max-w-5xl w-full mx-auto px-6 pt-32 pb-20 relative z-10">
+        <div className="max-w-2xl">
           {/* Badge */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(0,184,212,0.15)", border: "1px solid rgba(0,184,212,0.35)", borderRadius: "50px", padding: "0.4rem 1rem", marginBottom: "1.75rem" }}>
-            <Icon.Star style={{ width: 14, height: 14, color: "#FCD116" }} />
-            <span style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.78rem", fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)", letterSpacing: "0.12em", fontWeight: 600, textTransform: "uppercase" }}>
+          <div className="inline-flex items-center gap-2 bg-hsh-cyan/12 border border-hsh-cyan/25 rounded-lg px-4 py-2 mb-7">
+            <Icon.Star className="w-3.5 h-3.5" style={{ color: "#FCD116" }} />
+            <span className="text-white/85 text-xs font-outline tracking-widest font-semibold uppercase">
               Ghana, Our Heritage, Our Pride
             </span>
-            <Icon.Star style={{ width: 14, height: 14, color: "#FCD116" }} />
           </div>
 
-          <h1 style={{ fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)", fontSize: "clamp(2.4rem,6vw,4.2rem)", fontWeight: 900, color: "white", lineHeight: 1.08, marginBottom: "1.25rem" }}>
+          <h1 className="font-outfit text-5xl md:text-6xl font-black text-white leading-tight mb-5">
             Home Sweet Home<br />
-            <span style={{ background: "linear-gradient(135deg, #00B8D4, #FCD116)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Ghana Network
-            </span>
+            <span className="text-hsh-gold">Ghana Network</span>
           </h1>
 
-          <p style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.72)", lineHeight: 1.7, marginBottom: "0.75rem", fontStyle: "italic" }}>
+          <p className="text-lg text-white/72 leading-relaxed mb-3 italic">
             Where Friendship Meets Purpose
           </p>
-          <p style={{ fontSize: "0.98rem", color: "rgba(255,255,255,0.58)", lineHeight: 1.75, marginBottom: "2.25rem", maxWidth: "520px" }}>
+          <p className="text-base text-white/58 leading-relaxed mb-9 max-w-2xl">
             A vibrant global community uniting Ghanaians at home and in the diaspora through
             friendship, collaboration, cultural pride, and charitable service.
           </p>
 
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <Link href="/membership" className="btn-orange" style={{ fontSize: "1rem", padding: "0.9rem 2.25rem" }}>
-              <Icon.UserPlus style={{ width: 18, height: 18 }} />
+          <div className="flex gap-4 flex-wrap">
+            <Link href="/apply" className="inline-flex items-center gap-2 bg-gradient-to-br from-hsh-orange to-orange-400 text-white font-bold py-3 px-6 rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all text-lg">
+              <Icon.UserPlus className="w-5 h-5" />
               Join the Network
             </Link>
-            <Link href="/about" className="btn-outline-white" style={{ fontSize: "1rem", padding: "0.9rem 2.25rem" }}>
+            <Link href="/about" className="inline-flex items-center gap-2 bg-transparent text-white font-semibold py-3 px-6 rounded-full border-2 border-white/50 hover:bg-white/15 hover:border-white transition-all text-lg">
               Learn More
-              <Icon.ArrowRight style={{ width: 16, height: 16 }} />
+              <Icon.ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
 
         {/* Floating stat cards */}
-        <div style={{ display: "flex", gap: "1rem", marginTop: "3.5rem", flexWrap: "wrap" }}>
+        <div className="flex gap-4 mt-14 flex-wrap">
           {[
-            { icon: <Icon.Users style={{ width: 20, height: 20 }} />, value: "500+", label: "Members Worldwide" },
-            { icon: <Icon.Globe style={{ width: 20, height: 20 }} />, value: "2+",   label: "Countries" },
-            { icon: <Icon.Heart style={{ width: 20, height: 20 }} />, value: "2",    label: "Active Divisions" },
+            { icon: <Icon.Users className="w-5 h-5" />, value: "500+", label: "Members Worldwide" },
+            { icon: <Icon.Globe className="w-5 h-5" />, value: "2+",   label: "Countries" },
+            { icon: <Icon.Heart className="w-5 h-5" />, value: "2",    label: "Active Divisions" },
           ].map((s) => (
-            <div key={s.label} style={{
-              background: "rgba(255,255,255,0.07)", backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.12)", borderRadius: "16px",
-              padding: "1rem 1.5rem", display: "flex", alignItems: "center", gap: "0.85rem",
-              minWidth: "160px",
-            }}>
-              <div style={{ color: "#00B8D4" }}>{s.icon}</div>
+            <div key={s.label} className="bg-white/6 border border-white/10 rounded-2xl p-4 flex items-center gap-3 min-w-fit">
+              <div className="text-hsh-cyan">{s.icon}</div>
               <div>
-                <div style={{ fontFamily: "var(--font-outfit,'Outfit',Arial,sans-serif)", fontWeight: 800, fontSize: "1.4rem", color: "#FCD116" }}>{s.value}</div>
-                <div style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.5)" }}>{s.label}</div>
+                <div className="font-outfit font-black text-2xl text-hsh-gold">{s.value}</div>
+                <div className="text-xs text-white/50">{s.label}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Bottom wave into page */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "72px", background: "var(--off-white)", clipPath: "ellipse(55% 100% at 50% 100%)" }} />
     </section>
   );
 }
