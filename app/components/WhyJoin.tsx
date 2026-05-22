@@ -14,7 +14,7 @@ const colors = ["#1B3A8F", "#00B8D4", "#F97316", "#1B3A8F", "#00B8D4", "#F97316"
 
 export default function WhyJoin() {
   return (
-    <section id="why-join" className="bg-hsh-off-white py-24 px-6">
+    <section id="why-join" className="bg-hsh-off-white py-6 px-6 overflow-hidden">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-16 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[4rem] md:text-[7rem] font-black text-black/[0.03] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">

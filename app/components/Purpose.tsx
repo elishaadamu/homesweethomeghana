@@ -24,7 +24,7 @@ const purposeCards = [
 
 export default function Purpose() {
   return (
-    <section id="purpose" className="relative overflow-hidden bg-hsh-navy-dark py-24 px-6">
+    <section id="purpose" className="relative overflow-hidden bg-hsh-navy-dark py-6 px-6">
       <div className="relative z-10 mx-auto max-w-[1100px]">
         {/* Top label */}
         <div className="mb-20 text-center relative">

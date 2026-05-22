@@ -3,7 +3,7 @@ import { Icon } from "./Icons";
 
 export default function Divisions() {
   return (
-    <section id="divisions" className="bg-hsh-off-white py-24 px-6">
+    <section id="divisions" className="bg-hsh-off-white py-6 px-6 overflow-hidden">
       <div className="mx-auto max-w-[1200px]">
 
         {/* Header */}

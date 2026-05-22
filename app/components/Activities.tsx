@@ -37,7 +37,7 @@ export default function Activities() {
   const tab = tabs.find((t) => t.id === active)!;
 
   return (
-    <section id="activities" className="bg-hsh-off-white py-24 px-6 scroll-mt-20">
+    <section id="activities" className="bg-hsh-off-white py-6 px-6 scroll-mt-20 overflow-hidden">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}

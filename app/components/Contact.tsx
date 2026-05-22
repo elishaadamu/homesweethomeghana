@@ -33,7 +33,7 @@ const offices = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="bg-hsh-off-white py-24 px-6 scroll-mt-20">
+    <section id="contact" className="bg-hsh-off-white py-6 px-6 scroll-mt-20 overflow-hidden">
       <div className="mx-auto max-w-5xl">
 
         {/* Header */}
