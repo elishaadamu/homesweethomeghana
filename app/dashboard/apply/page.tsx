@@ -2,9 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { Icon } from "../components/Icons";
+import { Icon } from "../../components/Icons";
 
 /* ── Reusable styled field wrapper ─────────────────────── */
 function Field({ label, children, full }: { label: string; children: React.ReactNode; full?: boolean }) {
@@ -162,7 +160,6 @@ function ApplyFormContent() {
 
   return (
     <>
-      <Navbar />
       {/* ── Beautiful Premium Hero Header ────────────────────────── */}
       <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden bg-[#0A1840]">
         <Image
@@ -430,7 +427,6 @@ function ApplyFormContent() {
           Home Sweet Home Ghana Network &bull; Promoting Unity, Growth, and Community Development
         </p>
       </main>
-      <Footer />
     </>
   );
 }

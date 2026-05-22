@@ -1,6 +1,9 @@
 "use client";
 import { MdLocationOn, MdPublic, MdBusiness, MdCheck, MdArrowForward } from "react-icons/md";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useAlert } from "../context/AlertContext";
+import { useRouter } from "next/navigation";
 
 const plans = [
   {
@@ -54,6 +57,20 @@ const plans = [
 ];
 
 export default function Membership() {
+  const { status } = useSession();
+  const { showAlert } = useAlert();
+  const router = useRouter();
+
+  const handleJoinClick = (e: React.MouseEvent<HTMLAnchorElement>, planName: string) => {
+    if (planName === "Corporate Partner") return; // Allow smooth scroll to contact
+    
+    if (status !== "authenticated") {
+      e.preventDefault();
+      showAlert("Please log in or create an account to apply.", "info");
+      router.push("/auth?tab=signup&callbackUrl=/dashboard/apply?plan=" + encodeURIComponent(planName));
+    }
+  };
+
   return (
     <section id="membership" className="bg-hsh-off-white py-24 px-6 relative overflow-hidden">
       {/* Background soft glowing accent */}
@@ -191,7 +208,8 @@ export default function Membership() {
               {/* CTA */}
               <div className="mt-auto pt-4 relative z-10">
                 <Link
-                  href={plan.name === "Corporate Partner" ? "#contact" : `/apply?plan=${encodeURIComponent(plan.name)}`}
+                  onClick={(e) => handleJoinClick(e, plan.name)}
+                  href={plan.name === "Corporate Partner" ? "#contact" : `/dashboard/apply?plan=${encodeURIComponent(plan.name)}`}
                   className={`font-outfit group flex items-center justify-center gap-2 w-full rounded-full py-4 text-center text-sm font-extrabold uppercase tracking-widest transition-all duration-300 ${
                     plan.highlight 
                       ? "bg-gradient-to-r from-hsh-cyan to-hsh-cyan-light text-white shadow-[0_8px_25px_rgba(0,184,212,0.35)] hover:shadow-[0_12px_35px_rgba(0,184,212,0.55)] hover:-translate-y-0.5 hover:scale-[1.01]" 

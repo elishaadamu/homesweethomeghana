@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Icon } from "./Icons";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   { label: "Home",       href: "/" },
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -78,12 +80,37 @@ export default function Navbar() {
 
           <div className="h-5 w-[1px] bg-white/10" />
 
-          <Link 
-            href="/apply" 
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-2.5 px-6 rounded-full hover:shadow-lg hover:shadow-orange-500/20 hover:scale-105 transition-all text-sm font-outfit"
-          >
-            Join Now
-          </Link>
+          {session ? (
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard"
+                className="text-white/80 hover:text-white font-semibold text-sm transition-colors"
+              >
+                Dashboard
+              </Link>
+              <button 
+                onClick={() => signOut()}
+                className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white font-bold py-2.5 px-6 rounded-full hover:bg-white/10 transition-all text-sm font-outfit"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Link 
+                href="/auth?tab=login" 
+                className="text-white/80 hover:text-white font-semibold text-sm transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/dashboard/apply" 
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-2.5 px-6 rounded-full hover:shadow-lg hover:shadow-orange-500/20 hover:scale-105 transition-all text-sm font-outfit"
+              >
+                Join Now
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Burger Menu Button */}
@@ -124,13 +151,40 @@ export default function Navbar() {
           
           <div className="h-[1px] bg-white/10 my-2" />
           
-          <Link 
-            href="/apply" 
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 px-6 rounded-full hover:shadow-lg transition-all text-base"
-            onClick={() => setMenuOpen(false)}
-          >
-            Join Now <Icon.ArrowRight className="w-5 h-5" />
-          </Link>
+          {session ? (
+            <div className="flex flex-col gap-3">
+              <Link 
+                href="/dashboard"
+                onClick={() => setMenuOpen(false)}
+                className="w-full flex items-center justify-center gap-2 bg-hsh-cyan/20 border border-hsh-cyan/30 text-hsh-cyan font-bold py-3.5 px-6 rounded-full hover:bg-hsh-cyan/30 transition-all text-base"
+              >
+                Dashboard
+              </Link>
+              <button 
+                onClick={() => { signOut(); setMenuOpen(false); }}
+                className="w-full flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white font-bold py-3.5 px-6 rounded-full hover:bg-white/10 transition-all text-base"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <Link 
+                href="/auth?tab=login" 
+                className="w-full flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white font-bold py-3.5 px-6 rounded-full hover:bg-white/10 transition-all text-base"
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/dashboard/apply" 
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3.5 px-6 rounded-full hover:shadow-lg transition-all text-base"
+                onClick={() => setMenuOpen(false)}
+              >
+                Join Now <Icon.ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>

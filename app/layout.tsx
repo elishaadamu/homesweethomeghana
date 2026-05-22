@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./components/AuthProvider";
+import { AlertProvider } from "./context/AlertContext";
+import GlobalAlert from "./components/GlobalAlert";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -37,7 +40,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-hsh-off-white text-hsh-dark-text">
-        {children}
+        <AuthProvider>
+          <AlertProvider>
+            <GlobalAlert />
+            {children}
+          </AlertProvider>
+        </AuthProvider>
       </body>
     </html>
   );

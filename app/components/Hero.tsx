@@ -70,7 +70,7 @@ export default function Hero() {
         {/* CTAs */}
         <div className="mt-10 flex flex-wrap justify-center gap-5">
           <Link
-            href="/apply"
+            href="/dashboard/apply"
             className="px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold shadow-lg hover:scale-[1.03] transition text-lg"
           >
             Join the Network
