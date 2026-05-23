@@ -59,82 +59,82 @@ export default function SettingsPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
-        <h1 className="font-outfit text-3xl font-black text-white">Account Settings</h1>
-        <p className="text-white/60 text-sm mt-2">Update your personal information and security credentials.</p>
+        <h1 className="font-outfit text-3xl font-black text-hsh-navy">Account Settings</h1>
+        <p className="text-hsh-muted text-sm font-semibold mt-2">Update your personal information and security credentials.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-md space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white border border-hsh-navy/5 rounded-3xl p-8 shadow-sm space-y-6">
         
         {/* Name Field */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">Full Name</label>
+          <label className="block text-hsh-navy/80 text-sm font-bold mb-2">Full Name</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Icon.Users className="w-5 h-5 text-white/40" />
+              <Icon.Users className="w-5 h-5 text-hsh-navy/35" />
             </div>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all"
+              className="w-full bg-hsh-light border border-hsh-navy/10 rounded-xl py-3 pl-12 pr-4 text-hsh-navy placeholder-hsh-navy/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all font-semibold"
             />
           </div>
         </div>
 
         {/* Email Field (Disabled) */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">Email Address (Cannot be changed)</label>
+          <label className="block text-hsh-navy/80 text-sm font-bold mb-2">Email Address (Cannot be changed)</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Icon.Mail className="w-5 h-5 text-white/40" />
+              <Icon.Mail className="w-5 h-5 text-hsh-navy/25" />
             </div>
             <input
               type="email"
               value={session?.user?.email || ""}
               disabled
-              className="w-full bg-black/40 border border-white/5 rounded-xl py-3 pl-12 pr-4 text-white/50 cursor-not-allowed"
+              className="w-full bg-hsh-light/50 border border-hsh-navy/5 rounded-xl py-3 pl-12 pr-4 text-hsh-navy/40 cursor-not-allowed font-semibold"
             />
           </div>
         </div>
 
-        <div className="w-full h-px bg-white/10 my-8" />
+        <div className="w-full h-px bg-hsh-navy/5 my-8" />
 
         <div className="mb-4">
-          <h3 className="font-outfit text-lg font-bold text-white">Change Password</h3>
-          <p className="text-white/50 text-xs">Leave blank if you don't want to change it.</p>
+          <h3 className="font-outfit text-lg font-bold text-hsh-navy">Change Password</h3>
+          <p className="text-hsh-muted text-xs font-semibold">Leave blank if you don't want to change it.</p>
         </div>
 
         {/* Password Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-white/80 text-sm font-semibold mb-2">New Password</label>
+            <label className="block text-hsh-navy/80 text-sm font-bold mb-2">New Password</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Icon.Eye className="w-5 h-5 text-white/40" />
+                <Icon.Eye className="w-5 h-5 text-hsh-navy/35" />
               </div>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all"
+                className="w-full bg-hsh-light border border-hsh-navy/10 rounded-xl py-3 pl-12 pr-4 text-hsh-navy placeholder-hsh-navy/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all font-semibold"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-white/80 text-sm font-semibold mb-2">Confirm New Password</label>
+            <label className="block text-hsh-navy/80 text-sm font-bold mb-2">Confirm New Password</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Icon.Shield className="w-5 h-5 text-white/40" />
+                <Icon.Shield className="w-5 h-5 text-hsh-navy/35" />
               </div>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all"
+                className="w-full bg-hsh-light border border-hsh-navy/10 rounded-xl py-3 pl-12 pr-4 text-hsh-navy placeholder-hsh-navy/30 focus:outline-none focus:border-hsh-cyan focus:ring-1 focus:ring-hsh-cyan transition-all font-semibold"
               />
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-hsh-cyan hover:bg-hsh-cyan-light text-hsh-navy-dark font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-hsh-cyan/20 disabled:opacity-50 flex items-center gap-2"
+            className="bg-hsh-cyan hover:bg-hsh-cyan/90 text-hsh-navy font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center gap-2 cursor-pointer"
           >
             {isLoading ? "Saving..." : "Save Changes"}
           </button>

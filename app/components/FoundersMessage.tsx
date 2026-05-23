@@ -39,7 +39,7 @@ export default function FoundersMessage() {
             </div>
             
             {/* Solid accent bar */}
-            <div className="w-16 h-1 bg-hsh-gold my-8 rounded-full" />
+            <div className="w-16 h-1 bg-hsh-cyan my-8 rounded-full" />
             
             {/* Founder details */}
             <div className="flex flex-col items-center">

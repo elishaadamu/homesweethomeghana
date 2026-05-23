@@ -15,10 +15,10 @@ export default function Sidebar({ user }: { user: any }) {
   ];
 
   return (
-    <div className="w-64 bg-[#0A1840] border-r border-white/10 hidden md:flex flex-col h-full shrink-0">
-      <div className="p-6 border-b border-white/10">
+    <div className="w-64 bg-white border-r border-hsh-navy/5 hidden md:flex flex-col h-full shrink-0">
+      <div className="p-6 border-b border-hsh-navy/5">
         <Link href="/" className="flex items-center gap-3 no-underline group">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-hsh-cyan/30 transition-transform duration-300 group-hover:scale-105 shrink-0">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-hsh-cyan/20 transition-transform duration-300 group-hover:scale-105 shrink-0">
             <Image 
               src="/logo.jpeg" 
               alt="HSH Network" 
@@ -28,7 +28,7 @@ export default function Sidebar({ user }: { user: any }) {
             />
           </div>
           <div>
-            <div className="font-outfit font-black text-base text-white tracking-tight leading-none group-hover:text-amber-300 transition-colors">
+            <div className="font-outfit font-black text-base text-hsh-navy tracking-tight leading-none group-hover:text-hsh-cyan transition-colors">
               HSH NETWORK
             </div>
           </div>
@@ -43,10 +43,10 @@ export default function Sidebar({ user }: { user: any }) {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-semibold ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-bold ${
                 isActive
-                  ? "bg-hsh-cyan/20 text-hsh-cyan"
-                  : "text-white/60 hover:bg-white/5 hover:text-white"
+                  ? "bg-hsh-cyan/10 text-hsh-cyan"
+                  : "text-hsh-navy/70 hover:bg-hsh-light hover:text-hsh-navy"
               }`}
             >
               <LinkIcon className="w-5 h-5" />
@@ -56,10 +56,10 @@ export default function Sidebar({ user }: { user: any }) {
         })}
       </div>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-hsh-navy/5">
         <button
           onClick={() => signOut({ callbackUrl: "/auth?tab=login" })}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left text-sm font-semibold text-red-400 hover:bg-red-400/10 transition-all"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left text-sm font-bold text-red-500 hover:bg-red-50 transition-all"
         >
           <Icon.X className="w-5 h-5" />
           Log Out

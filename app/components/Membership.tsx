@@ -108,7 +108,7 @@ export default function Membership() {
               {plan.highlight ? (
                 <>
                   <div className="absolute -top-10 -right-10 w-40 h-40 bg-hsh-cyan/15 rounded-full blur-[3rem] pointer-events-none transition-all duration-500 group-hover:bg-hsh-cyan/25" />
-                  <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-hsh-gold/5 rounded-full blur-[3rem] pointer-events-none transition-all duration-500 group-hover:bg-hsh-gold/15" />
+                  <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-hsh-cyan/5 rounded-full blur-[3rem] pointer-events-none transition-all duration-500 group-hover:bg-hsh-cyan/15" />
                 </>
               ) : (
                 <div 
@@ -148,7 +148,7 @@ export default function Membership() {
                 </div>
                 
                 {plan.highlight && (
-                  <span className="text-[10px] font-black uppercase tracking-widest text-hsh-gold animate-pulse">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-hsh-cyan animate-pulse">
                     ★ Featured
                   </span>
                 )}
@@ -165,7 +165,7 @@ export default function Membership() {
                 <div className="flex items-baseline">
                   <span
                     className={`font-outfit text-5xl font-black tracking-tight ${
-                      plan.highlight ? "text-hsh-gold" : "text-hsh-dark-text"
+                      plan.highlight ? "text-hsh-cyan" : "text-hsh-dark-text"
                     }`}
                     style={!plan.highlight ? { color: plan.color } : {}}
                   >

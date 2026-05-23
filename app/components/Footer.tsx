@@ -29,7 +29,7 @@ export default function Footer() {
               />
               <div>
                 <div className="font-outfit text-xl font-black leading-snug tracking-wide">HSH NETWORK</div>
-                <div className="text-xs text-hsh-gold font-bold uppercase tracking-widest mt-1">
+                <div className="text-xs text-hsh-cyan font-bold uppercase tracking-widest mt-1">
                   Home Sweet Home Ghana
                 </div>
               </div>
@@ -37,8 +37,8 @@ export default function Footer() {
             <p className="mb-6 max-w-sm text-sm leading-relaxed text-white/70">
               A vibrant community dedicated to fostering friendship, professional collaboration, and charitable service among Ghanaians locally and in the diaspora.
             </p>
-            {/* Gold stars */}
-            <div className="text-hsh-gold tracking-[0.5em] text-lg">✦ ✦ ✦</div>
+            {/* Cyan stars */}
+            <div className="text-hsh-cyan tracking-[0.5em] text-lg">✦ ✦ ✦</div>
           </div>
 
           {/* Quick links */}
@@ -92,7 +92,7 @@ export default function Footer() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 text-hsh-gold flex items-center justify-center">
+                <div className="mt-0.5 text-hsh-cyan flex items-center justify-center">
                   <Icon.Mail className="w-5 h-5" />
                 </div>
                 <div>

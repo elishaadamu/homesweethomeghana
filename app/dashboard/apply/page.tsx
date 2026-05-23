@@ -100,10 +100,10 @@ function SelectedPlanBadge({ planParam }: { planParam: string | null }) {
   if (!planParam) return null;
 
   return (
-    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-hsh-cyan/20 border border-hsh-cyan/30 backdrop-blur-md mt-6">
-      <Icon.Award className="w-4 h-4 text-amber-300" />
-      <span className="text-sm font-semibold tracking-wide text-white">
-        Applying for: <span className="text-amber-300">{planParam}</span>
+    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-hsh-cyan/10 border border-hsh-cyan/20 mt-4">
+      <Icon.Award className="w-4 h-4 text-hsh-cyan" />
+      <span className="text-xs font-bold uppercase tracking-wider text-hsh-navy">
+        Applying for: <span className="text-hsh-cyan font-black">{planParam}</span>
       </span>
     </div>
   );
@@ -159,42 +159,28 @@ function ApplyFormContent() {
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
   return (
-    <>
-      {/* ── Beautiful Premium Hero Header ────────────────────────── */}
-      <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden bg-[#0A1840]">
-        <Image
-          src="/apply_hero.png"
-          alt="Join HSH Network"
-          fill
-          className="object-cover object-center opacity-30"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A1840] via-[#0A1840]/60 to-transparent" />
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* ── Beautiful Clean Page Header ────────────────────────── */}
+      <div className="bg-white border border-hsh-navy/5 rounded-3xl p-8 shadow-sm relative overflow-hidden">
+        {/* Background Accent */}
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-hsh-cyan/5 rounded-full blur-3xl pointer-events-none" />
         
-        {/* Massive Watermark */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] md:text-[9rem] font-black text-white/[0.04] whitespace-nowrap pointer-events-none uppercase tracking-widest font-outfit z-0">
-          JOIN US
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-28 pb-20 w-full">
-          <p className="text-xs font-bold tracking-widest uppercase text-hsh-cyan mb-4">Welcome to the Family</p>
-          <h1 className="font-outfit text-5xl md:text-7xl font-black text-white leading-tight mb-5">
-            Membership <span className="text-hsh-cyan">Application</span>
+        <div className="relative z-10 text-left">
+          <p className="text-xs font-black tracking-widest uppercase text-hsh-cyan mb-2 font-outfit">Welcome to the Family</p>
+          <h1 className="font-outfit text-3xl md:text-4xl font-black text-hsh-navy tracking-tight leading-none mb-3">
+            Membership Application
           </h1>
-          <p className="text-white/80 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-hsh-muted text-base leading-relaxed max-w-2xl font-medium font-inter">
             Become a part of the Home Sweet Home Ghana Network and connect with a vibrant community of Ghanaians across the globe.
           </p>
           <SelectedPlanBadge planParam={derivedPlan} />
         </div>
-        
-      
-      </section>
+      </div>
 
       {/* ── Form Container ────────────────────────────── */}
-      <main className="bg-hsh-off-white px-6 pb-20">
-        <div className="max-w-[780px] -mt-12 md:-mt-24 mx-auto relative z-10 bg-white rounded-[20px] shadow-[0_20px_60px_rgba(27,58,143,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-10 pb-12 border border-hsh-navy/5">
-          {/* Progress */}
-          <ProgressBar step={step} />
+      <div className="bg-white rounded-[20px] shadow-sm p-10 pb-12 border border-hsh-navy/5">
+        {/* Progress */}
+        <ProgressBar step={step} />
 
           <form onSubmit={(e) => e.preventDefault()}>
 
@@ -374,7 +360,7 @@ function ApplyFormContent() {
                   Please complete your membership fee payment to finalize your application.
                 </p>
                 
-                <div className="bg-hsh-off-white border-[1.5px] border-[#D8E0F0] rounded-[16px] p-6 mb-8 max-w-sm mx-auto">
+                <div className="bg-hsh-light border-[1.5px] border-[#D8E0F0] rounded-[16px] p-6 mb-8 max-w-sm mx-auto">
                   <div className="text-xs font-bold uppercase tracking-widest text-hsh-navy mb-2">Membership Type</div>
                   <div className="font-outfit text-xl font-black text-hsh-dark-text">{derivedPlan}</div>
                 </div>
@@ -383,7 +369,7 @@ function ApplyFormContent() {
                   href={paymentLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-orange px-10 py-3.5 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(249,115,22,0.25)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-cyan px-10 py-3.5 font-bold text-base text-hsh-navy font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-md shadow-hsh-cyan/15 cursor-pointer"
                 >
                   <Icon.Send className="w-5 h-5" />
                   Pay with PayPal
@@ -404,13 +390,13 @@ function ApplyFormContent() {
                 )}
 
                 {step < 3 ? (
-                  <button type="button" onClick={next} className="flex items-center gap-2 rounded-full bg-hsh-orange px-8 py-2.5 font-bold text-[0.9rem] text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95">
+                  <button type="button" onClick={next} className="flex items-center gap-2 rounded-full bg-hsh-gold px-8 py-2.5 font-bold text-[0.9rem] text-hsh-navy font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-sm shadow-hsh-gold/15">
                     Continue
                     <Icon.ArrowRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button type="button" 
-                    className="flex items-center gap-2 rounded-full bg-hsh-navy px-10 py-3 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95"
+                    className="flex items-center gap-2 rounded-full bg-hsh-navy px-10 py-3 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
                     onClick={() => setStep(4)}
                   >
                     <Icon.Send className="w-4 h-4" />
@@ -426,8 +412,7 @@ function ApplyFormContent() {
         <p className="text-center mt-8 text-[0.82rem] text-hsh-muted italic">
           Home Sweet Home Ghana Network &bull; Promoting Unity, Growth, and Community Development
         </p>
-      </main>
-    </>
+      </div>
   );
 }
 
