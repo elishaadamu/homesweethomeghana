@@ -10,11 +10,11 @@ export default function GlobalAlert() {
     <AnimatePresence>
       {alert && (
         <motion.div
-          initial={{ opacity: 0, x: 50, scale: 0.95 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: 20, scale: 0.95 }}
+          initial={{ opacity: 0, y: -50, x: "-50%", scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
+          exit={{ opacity: 0, y: -20, x: "-50%", scale: 0.95 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="fixed top-24 right-4 md:right-8 z-[100] w-full max-w-sm"
+          className="fixed top-4 left-1/2 z-[100] w-[calc(100%-2rem)] max-w-sm"
         >
           <div
             className={`flex items-start gap-3 px-4 py-4 rounded-xl shadow-lg border ${
