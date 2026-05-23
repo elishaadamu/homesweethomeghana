@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { MdLocalBar, MdMessage, MdEmojiEvents, MdLocationOn, MdPeople, MdHandshake, MdMenuBook, MdFavoriteBorder, MdLocalHospital } from "react-icons/md";
 
@@ -30,11 +30,117 @@ const tabs = [
   },
 ];
 
-const cardColors = ["#1B3A8F", "#00B8D4", "#F97316", "#1B3A8F", "#00B8D4"];
+const cardColors = ["#002576", "#00c2cc", "#fbd124", "#002576", "#00c2cc"];
 
 export default function Activities() {
   const [active, setActive] = useState("social");
   const tab = tabs.find((t) => t.id === active)!;
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Dragging states
+  const isDown = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftVal = useRef(0);
+
+  // Reset scroll position and active index when tab changes
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft = 0;
+    }
+    setActiveIndex(0);
+  }, [active]);
+
+  // Auto-scroll logic (5s interval)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current && !isDown.current) {
+        const { scrollLeft, clientWidth, scrollWidth } = carouselRef.current;
+        const cardWidth = clientWidth / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1);
+        
+        // Loop back to start if at the end
+        if (Math.ceil(scrollLeft + clientWidth) >= scrollWidth - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          carouselRef.current.scrollTo({ left: scrollLeft + cardWidth, behavior: "smooth" });
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Track active slide based on scroll position
+  const handleScrollEvent = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, clientWidth, scrollWidth } = carouselRef.current;
+      const cardWidth = clientWidth / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1);
+      
+      const maxScroll = scrollWidth - clientWidth;
+      if (maxScroll <= 0) return;
+      
+      // Map scroll progress to dots range
+      const idx = Math.min(
+        tab.activities.length - 1,
+        Math.max(0, Math.round((scrollLeft / maxScroll) * (tab.activities.length - 1)))
+      );
+      setActiveIndex(idx);
+    }
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDown.current = true;
+    if (carouselRef.current) {
+      carouselRef.current.style.scrollBehavior = "auto"; // Instant movement during drag
+      startX.current = e.pageX - carouselRef.current.offsetLeft;
+      scrollLeftVal.current = carouselRef.current.scrollLeft;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    isDown.current = false;
+    if (carouselRef.current) {
+      carouselRef.current.style.scrollBehavior = "smooth";
+    }
+  };
+
+  const handleMouseUp = () => {
+    isDown.current = false;
+    if (carouselRef.current) {
+      carouselRef.current.style.scrollBehavior = "smooth";
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown.current) return;
+    e.preventDefault();
+    if (carouselRef.current) {
+      const x = e.pageX - carouselRef.current.offsetLeft;
+      const walk = (x - startX.current) * 1.5; // Drag speed multiplier
+      carouselRef.current.scrollLeft = scrollLeftVal.current - walk;
+    }
+  };
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const { scrollLeft, clientWidth } = carouselRef.current;
+      const cardWidth = clientWidth / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1);
+      carouselRef.current.scrollTo({
+        left: direction === "left" ? scrollLeft - cardWidth : scrollLeft + cardWidth,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollToSlide = (index: number) => {
+    if (carouselRef.current) {
+      const { clientWidth, scrollWidth } = carouselRef.current;
+      const maxScroll = scrollWidth - clientWidth;
+      const targetScroll = (index / (tab.activities.length - 1)) * maxScroll;
+      carouselRef.current.scrollTo({ left: targetScroll, behavior: "smooth" });
+    }
+  };
 
   return (
     <section id="activities" className="bg-hsh-off-white py-12 px-6 scroll-mt-20 overflow-hidden">
@@ -89,41 +195,77 @@ export default function Activities() {
           </div>
         </div>
 
-        {/* Activity cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {tab.activities.map((act, i) => {
-            const IconComponent = act.Icon;
-            const color = cardColors[i];
-            return (
-              <div
-                key={act.title}
-                className="bg-white rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)]"
-              >
-                {/* Background Icon Watermark */}
+        {/* Carousel Container */}
+        <div className="relative max-w-5xl mx-auto px-4 md:px-12 group">
+          {/* Scrollable track */}
+          <div
+            ref={carouselRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onScroll={handleScrollEvent}
+            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar gap-6 pb-6 w-full cursor-grab active:cursor-grabbing select-none"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {tab.activities.map((act, i) => {
+              const IconComponent = act.Icon;
+              const color = cardColors[i % cardColors.length];
+              return (
                 <div
-                  className="absolute -bottom-8 -right-8 opacity-[0.03] pointer-events-none"
-                  style={{ color }}
+                  key={act.title}
+                  className="snap-start shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 flex flex-col items-center text-center border border-hsh-navy/5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 relative"
                 >
-                  <IconComponent className="w-40 h-40" />
-                </div>
-
-                <div className="relative z-10 flex flex-col items-center">
                   <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm"
-                    style={{ background: `${color}15`, color: color }}
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-sm shrink-0 pointer-events-none"
+                    style={{ background: `${color}12`, color: color }}
                   >
-                    <IconComponent className="w-7 h-7" />
+                    <IconComponent className="w-6 h-6" />
                   </div>
-                  <h3 className="font-outfit font-bold text-xl text-hsh-dark-text mb-3">
+                  
+                  <h3 className="font-outfit font-black text-lg text-hsh-navy mb-2 leading-tight pointer-events-none">
                     {act.title}
                   </h3>
-                  <p className="text-hsh-muted text-sm leading-relaxed max-w-[280px]">
+                  
+                  <p className="text-hsh-muted text-sm leading-relaxed font-inter max-w-[240px] pointer-events-none">
                     {act.desc}
                   </p>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Navigation Controls */}
+          <button
+            onClick={() => handleScroll("left")}
+            className="absolute top-1/2 left-0 -translate-y-1/2 w-10 h-10 rounded-full bg-white text-hsh-navy flex items-center justify-center shadow-lg border border-hsh-navy/5 hover:bg-hsh-navy hover:text-white transition duration-300 pointer-events-auto z-20 cursor-pointer"
+            aria-label="Scroll left"
+          >
+            ←
+          </button>
+          <button
+            onClick={() => handleScroll("right")}
+            className="absolute top-1/2 right-0 -translate-y-1/2 w-10 h-10 rounded-full bg-white text-hsh-navy flex items-center justify-center shadow-lg border border-hsh-navy/5 hover:bg-hsh-navy hover:text-white transition duration-300 pointer-events-auto z-20 cursor-pointer"
+            aria-label="Scroll right"
+          >
+            →
+          </button>
+        </div>
+
+        {/* Premium Indicator Dot Bar */}
+        <div className="flex justify-center items-center gap-2 mt-8">
+          {tab.activities.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToSlide(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                activeIndex === i
+                  ? "bg-hsh-cyan w-6"
+                  : "bg-hsh-navy/20 hover:bg-hsh-navy/40 w-2.5"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
