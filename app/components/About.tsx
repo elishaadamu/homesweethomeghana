@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <section id="about" className="bg-hsh-off-white py-6 px-6 scroll-mt-20 overflow-hidden">
+    <section id="about" className="bg-hsh-off-white py-12 px-6 scroll-mt-20 overflow-hidden">
       <div className="max-w-5xl mx-auto">
 
         {/* Section header */}

@@ -4,18 +4,18 @@
 @custom-variant dark (&:where(.disable-dark-mode-entirely));
 
 @theme {
-  --color-hsh-navy: #1B3A8F;
-  --color-hsh-navy-dark: #0F2460;
-  --color-hsh-navy-light: #2A4FA8;
-  --color-hsh-cyan: #00B8D4;
-  --color-hsh-cyan-light: #33C9E0;
-  --color-hsh-orange: #F97316;
-  --color-hsh-orange-dark: #EA6C0A;
-  --color-hsh-gold: #FCD116;
-  --color-hsh-off-white: #F8FAFF;
-  --color-hsh-light: #EEF3FF;
+  --color-hsh-navy: #002576;
+  --color-hsh-navy-dark: #00174a;
+  --color-hsh-navy-light: #0037a8;
+  --color-hsh-cyan: #00c2cc;
+  --color-hsh-cyan-light: #01c1cc;
+  --color-hsh-orange: #fbd124;
+  --color-hsh-orange-dark: #d8b11c;
+  --color-hsh-gold: #fbd124;
+  --color-hsh-off-white: #ffffff;
+  --color-hsh-light: #f5f8ff;
   --color-hsh-muted: #6B7FA3;
-  --color-hsh-dark-text: #0D1B4B;
+  --color-hsh-dark-text: #002576;
 
   --font-outfit: var(--font-outfit), Outfit, Arial, sans-serif;
   --font-inter: var(--font-inter), Inter, Arial, sans-serif;

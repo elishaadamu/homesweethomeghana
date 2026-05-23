@@ -97,7 +97,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <div className="text-xs text-white/50 uppercase tracking-wider font-bold mb-1">Email</div>
-                  <a href="mailto:homesweethomeghana2@gmail.com" className="text-sm text-white/80 no-underline hover:text-white transition-colors break-all">homesweethomeghana2@gmail.com</a>
+                  <a href="mailto:support@homesweethomeghana.com" className="text-sm text-white/80 no-underline hover:text-white transition-colors break-all">support@homesweethomeghana.com</a>
                 </div>
               </div>
             </div>

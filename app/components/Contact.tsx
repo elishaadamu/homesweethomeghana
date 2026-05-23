@@ -20,20 +20,11 @@ const offices = [
     href: "tel:+447713136911",
     accent: "#00B8D4",
   },
-  {
-    Icon: MdNotifications,
-    country: "Public Relations & Media",
-    name: "Nana Ama Asantewaa",
-    role: "PR & Media Affairs",
-    phone: "+233 24 493 3893",
-    href: "tel:+233244933893",
-    accent: "#F97316",
-  },
 ];
 
 export default function Contact() {
   return (
-    <section id="contact" className="bg-hsh-off-white py-6 px-6 scroll-mt-20 overflow-hidden">
+    <section id="contact" className="bg-hsh-off-white py-12 px-6 scroll-mt-20 overflow-hidden">
       <div className="mx-auto max-w-5xl">
 
         {/* Header */}
@@ -105,7 +96,7 @@ export default function Contact() {
                     {office.country}
                   </div>
                   
-                  <h3 className="font-outfit font-bold text-xl text-hsh-dark-text mb-1">
+                  <h3 className="font-outfit font-black text-2xl md:text-3xl text-hsh-dark-text mb-2">
                     {office.name}
                   </h3>
                   

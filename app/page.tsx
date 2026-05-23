@@ -2,6 +2,7 @@ import Navbar     from "./components/Navbar";
 import Hero       from "./components/Hero";
 import About      from "./components/About";
 import Divisions  from "./components/Divisions";
+import FoundersMessage from "./components/FoundersMessage";
 import Purpose    from "./components/Purpose";
 import WhyJoin    from "./components/WhyJoin";
 import Activities from "./components/Activities";
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <FoundersMessage />
         <div className="w-[100%] md:w-full mx-auto">
           <About />
           <Divisions />

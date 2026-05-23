@@ -1,6 +1,7 @@
 "use client";
 import Navbar from "../components/Navbar";
 import About from "../components/About";
+import FoundersMessage from "../components/FoundersMessage";
 import Purpose from "../components/Purpose";
 import WhyJoin from "../components/WhyJoin";
 import Footer from "../components/Footer";
@@ -53,6 +54,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <FoundersMessage />
 
         <Purpose />
         <WhyJoin />
