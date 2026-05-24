@@ -1,16 +1,26 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Icon } from "../components/Icons";
+import { prisma } from "@/lib/prisma";
+import PayButton from "../components/PayButton";
 
 export default async function DashboardPage() {
   const session = await auth();
 
-  if (!session) {
+  if (!session || !session.user?.email) {
     redirect("/auth?tab=login");
   }
 
-  const memberType = (session.user as any).memberType || "Local Member";
+  const dbUser = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    include: { membershipApplication: true },
+  });
+
+  const memberType = dbUser?.memberType || "Local Member";
   const isDiaspora = memberType === "Diaspora Member";
+  const applicationStatus = dbUser?.membershipApplication?.status || "Pending Verification";
+  const hasPaidDues = dbUser?.duesValidUntil && new Date(dbUser.duesValidUntil) > new Date();
 
   return (
     <div className="space-y-8">
@@ -32,7 +42,29 @@ export default async function DashboardPage() {
               {isDiaspora ? <Icon.Globe className="w-4 h-4" /> : <Icon.MapPin className="w-4 h-4" />}
               {memberType}
             </span>
-            <span className="text-hsh-muted text-sm font-bold">Verified Profile</span>
+            {applicationStatus === "Verified" ? (
+              <span className="text-green-600 bg-green-50 border border-green-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                <Icon.Check className="w-3.5 h-3.5" />
+                Verified
+              </span>
+            ) : (
+              <span className="text-amber-500 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                <Icon.Activity className="w-3.5 h-3.5" />
+                {applicationStatus}
+              </span>
+            )}
+            
+            {hasPaidDues ? (
+              <span className="text-green-600 bg-green-50 border border-green-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                <Icon.Award className="w-3.5 h-3.5" />
+                Dues Paid (2026)
+              </span>
+            ) : (
+              <span className="text-red-500 bg-red-50 border border-red-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                <Icon.AlertTriangle className="w-3.5 h-3.5" />
+                Dues Unpaid
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -57,13 +89,20 @@ export default async function DashboardPage() {
                 ? "Join our upcoming virtual town hall to connect with fellow diaspora members worldwide and discuss investments back home in Ghana."
                 : "Participate in this weekend's charity drive in Accra. We are gathering resources for the local community outreach program."}
             </p>
-            <button className={`font-bold py-3 px-6 rounded-xl transition-all shadow-md text-sm ${
-              isDiaspora 
-                ? "bg-hsh-cyan hover:bg-hsh-cyan/90 text-hsh-navy shadow-hsh-cyan/10" 
-                : "bg-hsh-gold hover:bg-hsh-gold/90 text-hsh-navy shadow-hsh-gold/10"
-            }`}>
-              {isDiaspora ? "Register for Town Hall" : "Volunteer Now"}
-            </button>
+            {dbUser?.membershipApplication && !hasPaidDues ? (
+              <PayButton isDiaspora={isDiaspora} />
+            ) : !dbUser?.membershipApplication ? (
+              <Link 
+                href={`/dashboard/apply?plan=${memberType}`}
+                className={`inline-block font-bold py-3 px-6 rounded-xl transition-all shadow-md text-sm text-center ${
+                  isDiaspora 
+                    ? "bg-hsh-cyan hover:bg-hsh-cyan/90 text-hsh-navy shadow-hsh-cyan/10" 
+                    : "bg-hsh-gold hover:bg-hsh-gold/90 text-hsh-navy shadow-hsh-gold/10"
+                }`}
+              >
+                {isDiaspora ? "Apply for Membership" : "Volunteer Now"}
+              </Link>
+            ) : null}
           </div>
 
           {/* General Stats / Progress */}

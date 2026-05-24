@@ -38,7 +38,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-hsh-off-white text-hsh-dark-text">
         <AuthProvider>
           <AlertProvider>
