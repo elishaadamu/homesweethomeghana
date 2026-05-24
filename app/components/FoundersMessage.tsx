@@ -47,7 +47,7 @@ export default function FoundersMessage() {
                 Cyndi Owusu
               </h3>
               <p className="font-outfit font-bold text-sm tracking-wider uppercase text-hsh-cyan mt-2">
-                Founder & President
+                Founder
               </p>
               <p className="font-outfit text-xs font-bold text-hsh-muted uppercase tracking-widest mt-1">
                 Home Sweet Home Ghana Network

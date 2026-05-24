@@ -15,7 +15,7 @@ const offices = [
     Icon: MdPublic,
     country: "United Kingdom Office",
     name: "Cyndi Owusu",
-    role: "President",
+    role: "Founder",
     phone: "+44 7713 136911",
     href: "tel:+447713136911",
     accent: "#00B8D4",
