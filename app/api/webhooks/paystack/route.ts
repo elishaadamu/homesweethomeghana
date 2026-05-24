@@ -40,10 +40,19 @@ export async function POST(req: Request) {
         const validUntil = new Date();
         validUntil.setFullYear(validUntil.getFullYear() + 1);
 
-        // Update the user's dues valid date
+        // Update the user's dues valid date and mark them as verified
         await prisma.user.update({
           where: { id: payment.userId },
-          data: { duesValidUntil: validUntil },
+          data: { 
+            duesValidUntil: validUntil,
+            isVerified: true
+          },
+        });
+        
+        // Update the application status to Verified
+        await prisma.membershipApplication.updateMany({
+          where: { userId: payment.userId },
+          data: { status: "Verified" }
         });
 
         console.log(`Successfully verified and updated payment for user: ${payment.userId}`);
