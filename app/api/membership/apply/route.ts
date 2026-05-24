@@ -108,3 +108,38 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const session = await auth();
+
+    if (!session || !session.user?.email) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: {
+        membershipApplication: true,
+      }
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ application: user.membershipApplication }, { status: 200 });
+  } catch (error: any) {
+    console.error("Fetch Membership Application Error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch application", details: error.message },
+      { status: 500 }
+    );
+  }
+}

@@ -147,8 +147,16 @@ function ApplyFormContent() {
   const [loadingCountries, setLoadingCountries] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState("");
 
-  const isDiaspora = !planParam && selectedCountry !== "" && selectedCountry !== "Ghana";
-  const derivedPlan = planParam || (selectedCountry === "Ghana" ? "Local Member" : (selectedCountry !== "" ? "Diaspora Member" : null));
+  const [existingApplication, setExistingApplication] = useState<any>(null);
+  const [isCheckingApplication, setIsCheckingApplication] = useState(true);
+
+  const isDiaspora = existingApplication
+    ? existingApplication.country !== "Ghana"
+    : !planParam && selectedCountry !== "" && selectedCountry !== "Ghana";
+    
+  const derivedPlan = existingApplication
+    ? existingApplication.membershipCategory
+    : planParam || (selectedCountry === "Ghana" ? "Local Member" : (selectedCountry !== "" ? "Diaspora Member" : null));
 
   const paypalLinks: Record<string, string> = {
     "Local Member": "https://paypal.me/placeholder-local",
@@ -160,6 +168,8 @@ function ApplyFormContent() {
   /* membership type & interests */
   const [memberType, setMemberType] = useState<string>("Individual Membership");
   const [interests, setInterests] = useState<Set<string>>(new Set());
+
+  const currentMemberType = existingApplication ? existingApplication.membershipType : memberType;
 
   /* Form states */
   const [fullName, setFullName] = useState("");
@@ -204,6 +214,20 @@ function ApplyFormContent() {
       })
       .catch(() => setCountries(["Ghana", "Nigeria", "United Kingdom", "United States"]))
       .finally(() => setLoadingCountries(false));
+  }, []);
+
+  /* Check existing application */
+  useEffect(() => {
+    fetch("/api/membership/apply")
+      .then(res => res.json())
+      .then(data => {
+        if (data.application) {
+          setExistingApplication(data.application);
+          setStep(4);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setIsCheckingApplication(false));
   }, []);
 
   /* Load from draft */
@@ -367,7 +391,12 @@ function ApplyFormContent() {
       </div>
 
       {/* ── Form Container ────────────────────────────── */}
-      <div className="bg-white rounded-[20px] shadow-sm p-10 pb-12 border border-hsh-navy/5">
+      <div className="bg-white rounded-[20px] shadow-sm p-10 pb-12 border border-hsh-navy/5 min-h-[400px] flex flex-col relative">
+        {isCheckingApplication ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-10 rounded-[20px]">
+            <div className="w-8 h-8 border-4 border-hsh-navy/20 border-t-hsh-navy rounded-full animate-spin"></div>
+          </div>
+        ) : null}
         {/* Progress */}
         <ProgressBar step={step} />
 
@@ -554,10 +583,10 @@ function ApplyFormContent() {
                     <div className="text-xs font-bold uppercase tracking-widest text-hsh-navy mb-2">Membership Type</div>
                     <div className="font-outfit text-xl font-black text-hsh-dark-text">{derivedPlan}</div>
                   </div>
-                  {memberType && (
+                  {currentMemberType && (
                     <div className="pt-5 border-t border-[#D8E0F0]">
                       <div className="text-xs font-bold uppercase tracking-widest text-hsh-navy mb-2">Membership Category</div>
-                      <div className="font-outfit text-xl font-black text-hsh-dark-text">{memberType}</div>
+                      <div className="font-outfit text-xl font-black text-hsh-dark-text">{currentMemberType}</div>
                     </div>
                   )}
                 </div>
