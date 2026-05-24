@@ -60,6 +60,12 @@ function AuthForm() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (signupPassword.length < 6 || !/[a-zA-Z]/.test(signupPassword) || !/[0-9]/.test(signupPassword)) {
+      showAlert("Please ensure your password meets all requirements.", "error");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
@@ -185,7 +191,7 @@ function AuthForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
               >
-                <Icon.Eye className="w-5 h-5" />
+                {showPassword ? <Icon.EyeOff className="w-5 h-5" /> : <Icon.Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -324,8 +330,67 @@ function AuthForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
               >
-                <Icon.Eye className="w-5 h-5" />
+                {showPassword ? <Icon.EyeOff className="w-5 h-5" /> : <Icon.Eye className="w-5 h-5" />}
               </button>
+            </div>
+            
+            {/* Password Requirements & Strength Indicator */}
+            <div className="mt-3 flex flex-col gap-2.5 px-1">
+              {/* Strength Bar */}
+              {signupPassword.length > 0 && (
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-slate-500">Password Strength</span>
+                    <span className={`text-[10px] font-black tracking-widest uppercase ${
+                      (() => {
+                        const score = (signupPassword.length >= 6 ? 1 : 0) + (/[a-zA-Z]/.test(signupPassword) ? 1 : 0) + (/[0-9]/.test(signupPassword) ? 1 : 0) + (signupPassword.length >= 8 && /[^a-zA-Z0-9]/.test(signupPassword) ? 1 : 0);
+                        if (score <= 1) return "text-red-500";
+                        if (score === 2) return "text-amber-500";
+                        if (score === 3) return "text-blue-500";
+                        return "text-emerald-500";
+                      })()
+                    }`}>
+                      {(() => {
+                        const score = (signupPassword.length >= 6 ? 1 : 0) + (/[a-zA-Z]/.test(signupPassword) ? 1 : 0) + (/[0-9]/.test(signupPassword) ? 1 : 0) + (signupPassword.length >= 8 && /[^a-zA-Z0-9]/.test(signupPassword) ? 1 : 0);
+                        if (score === 0) return "";
+                        if (score === 1) return "Weak";
+                        if (score === 2) return "Fair";
+                        if (score === 3) return "Good";
+                        return "Strong";
+                      })()}
+                    </span>
+                  </div>
+                  <div className="flex gap-1 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                    {[1, 2, 3, 4].map((level) => {
+                      const score = (signupPassword.length >= 6 ? 1 : 0) + (/[a-zA-Z]/.test(signupPassword) ? 1 : 0) + (/[0-9]/.test(signupPassword) ? 1 : 0) + (signupPassword.length >= 8 && /[^a-zA-Z0-9]/.test(signupPassword) ? 1 : 0);
+                      let bgColor = "bg-transparent";
+                      if (level <= score) {
+                        if (score <= 1) bgColor = "bg-red-500";
+                        else if (score === 2) bgColor = "bg-amber-500";
+                        else if (score === 3) bgColor = "bg-blue-500";
+                        else bgColor = "bg-emerald-500";
+                      }
+                      return <div key={level} className={`flex-1 ${bgColor} transition-all duration-300`} />;
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Checklist */}
+              <div className="flex flex-col gap-1.5">
+                <div className={`flex items-center gap-2 text-xs font-semibold transition-colors ${signupPassword.length >= 6 ? 'text-emerald-500' : 'text-slate-400'}`}>
+                  <Icon.Check className={`w-3.5 h-3.5 ${signupPassword.length >= 6 ? 'opacity-100' : 'opacity-40'}`} />
+                  At least 6 characters
+                </div>
+                <div className={`flex items-center gap-2 text-xs font-semibold transition-colors ${/[a-zA-Z]/.test(signupPassword) ? 'text-emerald-500' : 'text-slate-400'}`}>
+                  <Icon.Check className={`w-3.5 h-3.5 ${/[a-zA-Z]/.test(signupPassword) ? 'opacity-100' : 'opacity-40'}`} />
+                  Contains a letter
+                </div>
+                <div className={`flex items-center gap-2 text-xs font-semibold transition-colors ${/[0-9]/.test(signupPassword) ? 'text-emerald-500' : 'text-slate-400'}`}>
+                  <Icon.Check className={`w-3.5 h-3.5 ${/[0-9]/.test(signupPassword) ? 'opacity-100' : 'opacity-40'}`} />
+                  Contains a number
+                </div>
+              </div>
             </div>
           </div>
 
