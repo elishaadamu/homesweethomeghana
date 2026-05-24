@@ -30,7 +30,7 @@ model User {
 model MembershipApplication {
   id                    String   @id @default(cuid())
   userId                String   @unique
-  user                  User     @relation(fields: [userId], references: [id])
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   // Step 1: Personal Info
   fullName              String
@@ -68,7 +68,7 @@ model MembershipApplication {
 model Payment {
   id              String   @id @default(cuid())
   userId          String
-  user            User     @relation(fields: [userId], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   amount          Float
   currency        String   // "USD" or "GHS"

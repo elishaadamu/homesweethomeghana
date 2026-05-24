@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import VerifyButton from "./VerifyButton";
+import MarkPaidButton from "./MarkPaidButton";
 import Link from "next/link";
 import { Icon } from "../../components/Icons";
 
@@ -101,7 +102,14 @@ export default async function AdminDashboardPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <VerifyButton userId={user.id} isVerified={user.isVerified} />
+                      <div className="flex items-center justify-end">
+                        <VerifyButton userId={user.id} isVerified={user.isVerified} />
+                        <MarkPaidButton 
+                          userId={user.id} 
+                          hasPaidDues={hasPaidDues} 
+                          applicationData={user.membershipApplication} 
+                        />
+                      </div>
                     </td>
                   </tr>
                 );

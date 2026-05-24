@@ -55,7 +55,7 @@ export default async function DashboardPage() {
           <h1 className="font-outfit text-3xl font-black text-hsh-navy mb-2">
             Welcome back, <span className="text-hsh-cyan">{session.user?.name?.split(" ")[0]}</span>!
           </h1>
-          <div className="flex items-center gap-3 mt-4">
+          <div className="flex flex-wrap items-center gap-3 mt-4">
             <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase ${
               isDiaspora 
                 ? "bg-hsh-cyan/10 text-hsh-cyan border border-hsh-cyan/20" 
@@ -122,7 +122,7 @@ export default async function DashboardPage() {
                     : "bg-hsh-gold hover:bg-hsh-gold/90 text-hsh-navy shadow-hsh-gold/10"
                 }`}
               >
-                {isDiaspora ? "Apply for Membership" : "Volunteer Now"}
+                Apply for Membership
               </Link>
             ) : null}
           </div>

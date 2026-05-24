@@ -168,6 +168,9 @@ function ApplyFormContent() {
   /* membership type & interests */
   const [memberType, setMemberType] = useState<string>("Individual Membership");
   const [interests, setInterests] = useState<Set<string>>(new Set());
+  const [customInterestInput, setCustomInterestInput] = useState("");
+
+  const PREDEFINED_INTERESTS = ["Community Development", "Youth Empowerment", "Education", "Health & Wellness", "Entrepreneurship", "Volunteering", "Networking & Partnerships"];
 
   const currentMemberType = existingApplication ? existingApplication.membershipType : memberType;
 
@@ -202,6 +205,25 @@ function ApplyFormContent() {
     const next = new Set(set);
     if (next.has(val)) next.delete(val); else next.add(val);
     setter(next);
+  };
+
+  const addCustomInterest = (e?: React.KeyboardEvent | React.MouseEvent) => {
+    if (e && 'key' in e && e.key !== 'Enter') return;
+    if (e) e.preventDefault();
+    
+    const val = customInterestInput.trim();
+    if (val && !interests.has(val)) {
+      const next = new Set(interests);
+      next.add(val);
+      setInterests(next);
+    }
+    setCustomInterestInput("");
+  };
+
+  const removeInterest = (val: string) => {
+    const next = new Set(interests);
+    next.delete(val);
+    setInterests(next);
   };
 
   /* Fetch countries */
@@ -507,14 +529,53 @@ function ApplyFormContent() {
                     Areas of Interest / Skills
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {["Community Development", "Youth Empowerment", "Education", "Health & Wellness", "Entrepreneurship", "Volunteering", "Networking & Partnerships"].map((s) => (
+                    {PREDEFINED_INTERESTS.map((s) => (
                       <CheckCard key={s} label={s} checked={interests.has(s)} onChange={() => toggleSet(interests, setInterests, s)} />
                     ))}
                   </div>
-                  <div className="mt-3.5">
+                  <div className="mt-4">
                     <Field label="Other interests (optional)" full>
-                      <input type="text" placeholder="Specify other interests..." className={inputClasses} />
+                      <div className="flex gap-2">
+                        <input 
+                          type="text" 
+                          placeholder="Type an interest and press Enter" 
+                          className={inputClasses} 
+                          value={customInterestInput}
+                          onChange={(e) => setCustomInterestInput(e.target.value)}
+                          onKeyDown={addCustomInterest}
+                        />
+                        <button 
+                          type="button" 
+                          onClick={addCustomInterest}
+                          className="px-5 bg-hsh-navy hover:bg-hsh-cyan text-white rounded-xl transition-colors font-bold text-sm"
+                        >
+                          Add
+                        </button>
+                      </div>
                     </Field>
+                    
+                    {/* Render Custom Interest Chips */}
+                    {Array.from(interests).filter(i => !PREDEFINED_INTERESTS.includes(i)).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-3">
+                        {Array.from(interests)
+                          .filter(i => !PREDEFINED_INTERESTS.includes(i))
+                          .map((interest) => (
+                            <span 
+                              key={interest} 
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-hsh-cyan/10 text-hsh-navy text-xs font-bold border border-hsh-cyan/20"
+                            >
+                              {interest}
+                              <button 
+                                type="button" 
+                                onClick={() => removeInterest(interest)}
+                                className="text-hsh-navy/50 hover:text-red-500 transition-colors"
+                              >
+                                <Icon.X className="w-3.5 h-3.5" />
+                              </button>
+                            </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -533,7 +594,16 @@ function ApplyFormContent() {
                     <input type="text" placeholder="Emergency contact name" className={inputClasses} value={emergencyFullName} onChange={e => setEmergencyFullName(e.target.value)} />
                   </Field>
                   <Field label="Relationship" required>
-                    <input type="text" placeholder="e.g. Spouse, Sibling" className={inputClasses} value={emergencyRelationship} onChange={e => setEmergencyRelationship(e.target.value)} />
+                    <select className={`${inputClasses} cursor-pointer`} value={emergencyRelationship} onChange={e => setEmergencyRelationship(e.target.value)}>
+                      <option value="">Select relationship</option>
+                      <option value="Spouse">Spouse</option>
+                      <option value="Parent">Parent</option>
+                      <option value="Sibling">Sibling</option>
+                      <option value="Child">Child</option>
+                      <option value="Friend">Friend</option>
+                      <option value="Colleague">Colleague</option>
+                      <option value="Other">Other</option>
+                    </select>
                   </Field>
                   <Field label="Phone Number" required>
                     <input type="tel" placeholder="+233 XXX XXX XXXX" className={inputClasses} value={emergencyPhone} onChange={e => setEmergencyPhone(e.target.value)} />
