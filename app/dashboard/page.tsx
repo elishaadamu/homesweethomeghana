@@ -27,6 +27,23 @@ export default async function DashboardPage() {
   const applicationStatus = dbUser?.isVerified ? "Verified" : (dbUser?.membershipApplication?.status || "Pending Verification");
   const hasPaidDues = dbUser?.duesValidUntil && new Date(dbUser.duesValidUntil) > new Date();
 
+  // Calculate validity range if applicable
+  let validityStart = null;
+  let validityEnd = null;
+  let progressPercentage = 0;
+
+  if (dbUser?.duesValidUntil) {
+    validityEnd = new Date(dbUser.duesValidUntil);
+    validityStart = new Date(validityEnd);
+    validityStart.setFullYear(validityStart.getFullYear() - 1);
+
+    const now = new Date();
+    const totalDuration = validityEnd.getTime() - validityStart.getTime();
+    const elapsed = now.getTime() - validityStart.getTime();
+    
+    progressPercentage = Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
+  }
+
   return (
     <div className="space-y-8">
       {/* Header Info */}
@@ -131,58 +148,102 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* Payment History Table */}
-          <div className="bg-white border border-hsh-navy/5 rounded-2xl p-6 shadow-sm overflow-hidden">
-            <h3 className="font-outfit text-xl font-bold text-hsh-navy mb-4">Payment History</h3>
-            
-            {(!dbUser?.payments || dbUser.payments.length === 0) ? (
-              <div className="text-center py-8 text-hsh-muted text-sm">
-                No payments found.
+          {/* Subscription Status & Payment History (Combined View) */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            {/* Validity Tracker Panel */}
+            <div className="xl:col-span-1 bg-white border border-hsh-navy/5 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+              <h3 className="font-outfit text-lg font-bold text-hsh-navy mb-5">Subscription</h3>
+              
+              {hasPaidDues && validityStart && validityEnd ? (
+                <div className="space-y-5 relative z-10">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-50 border-2 border-green-100 mx-auto mb-1">
+                    <Icon.Check className="w-6 h-6 text-green-500" />
+                  </div>
+                  <div className="text-center">
+                    <div className="text-green-600 font-black text-lg font-outfit uppercase tracking-widest">Active</div>
+                    <div className="text-hsh-muted text-xs mt-1">Dues are up to date</div>
+                  </div>
+
+                  <div className="pt-3 border-t border-hsh-navy/5">
+                    <div className="flex justify-between text-[0.65rem] font-bold text-hsh-muted mb-1.5 uppercase tracking-wider">
+                      <span>{validityStart.toLocaleDateString()}</span>
+                      <span>{validityEnd.toLocaleDateString()}</span>
+                    </div>
+                    <div className="w-full bg-hsh-light rounded-full h-2 overflow-hidden">
+                      <div 
+                        className="bg-hsh-cyan h-full rounded-full transition-all duration-1000 relative"
+                        style={{ width: `${progressPercentage}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 border-2 border-red-100 mx-auto mb-3">
+                    <Icon.AlertTriangle className="w-6 h-6 text-red-500" />
+                  </div>
+                  <div className="text-red-500 font-black text-lg font-outfit uppercase tracking-widest">Unpaid</div>
+                  <p className="text-hsh-muted text-xs mt-2 mb-4 leading-relaxed">
+                    Dues are currently unpaid or expired.
+                  </p>
+                  <PayButton isDiaspora={isDiaspora} />
+                </div>
+              )}
+            </div>
+
+            {/* Payment History Panel */}
+            <div className="xl:col-span-2 bg-white border border-hsh-navy/5 rounded-2xl p-6 shadow-sm overflow-hidden h-full flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-outfit text-lg font-bold text-hsh-navy">Payment History</h3>
+                <Link href="/dashboard/payments" className="text-xs font-bold text-hsh-cyan hover:underline">View All</Link>
               </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-hsh-dark-text">
-                  <thead className="bg-hsh-light text-hsh-navy font-bold uppercase text-xs tracking-wider">
-                    <tr>
-                      <th className="px-4 py-3 rounded-l-lg">Date</th>
-                      <th className="px-4 py-3">Amount</th>
-                      <th className="px-4 py-3">Method</th>
-                      <th className="px-4 py-3">Reference</th>
-                      <th className="px-4 py-3 rounded-r-lg text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-hsh-navy/5">
-                    {dbUser.payments.map((payment) => (
-                      <tr key={payment.id} className="hover:bg-hsh-light/50 transition-colors">
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {new Date(payment.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className="px-4 py-3 font-bold text-hsh-navy">
-                          {payment.currency} {payment.amount.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3 text-hsh-muted">
-                          {payment.provider}
-                        </td>
-                        <td className="px-4 py-3 font-mono text-xs text-hsh-muted/80">
-                          {payment.reference.substring(0, 10)}...
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <span className={`inline-flex items-center px-2 py-1 rounded-md text-[0.65rem] font-bold uppercase tracking-wider ${
-                            payment.status === "SUCCESS" 
-                              ? "bg-green-50 text-green-600 border border-green-200"
-                              : payment.status === "FAILED"
-                                ? "bg-red-50 text-red-600 border border-red-200"
-                                : "bg-amber-50 text-amber-600 border border-amber-200"
-                          }`}>
-                            {payment.status}
-                          </span>
-                        </td>
+              
+              {(!dbUser?.payments || dbUser.payments.length === 0) ? (
+                <div className="text-center py-8 my-auto bg-hsh-light/50 rounded-xl border border-dashed border-hsh-navy/10">
+                  <Icon.ClipboardList className="w-8 h-8 text-hsh-muted/30 mx-auto mb-2" />
+                  <div className="text-hsh-muted text-xs font-medium">No payments found.</div>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm text-hsh-dark-text">
+                    <thead className="bg-[#F8FAFF] text-hsh-navy font-bold uppercase text-[0.65rem] tracking-widest border-b border-hsh-navy/5">
+                      <tr>
+                        <th className="px-4 py-3 rounded-tl-lg">Date</th>
+                        <th className="px-4 py-3">Amount</th>
+                        <th className="px-4 py-3">Method</th>
+                        <th className="px-4 py-3 rounded-tr-lg text-right">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    </thead>
+                    <tbody className="divide-y divide-hsh-navy/5">
+                      {dbUser.payments.slice(0, 3).map((payment) => (
+                        <tr key={payment.id} className="hover:bg-[#F8FAFF]/50 transition-colors">
+                          <td className="px-4 py-3 whitespace-nowrap text-hsh-muted font-medium text-xs">
+                            {new Date(payment.createdAt).toLocaleDateString()}
+                          </td>
+                          <td className="px-4 py-3 font-black text-hsh-navy text-xs">
+                            {payment.currency} {payment.amount.toFixed(2)}
+                          </td>
+                          <td className="px-4 py-3 text-hsh-muted text-xs">
+                            {payment.provider}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[0.6rem] font-black uppercase tracking-widest ${
+                              (payment.status === "SUCCESS" || payment.status === "PAID")
+                                ? "bg-green-50 text-green-600 border border-green-200"
+                                : payment.status === "FAILED"
+                                  ? "bg-red-50 text-red-600 border border-red-200"
+                                  : "bg-amber-50 text-amber-600 border border-amber-200"
+                            }`}>
+                              {payment.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
 
         </div>
@@ -199,9 +260,9 @@ export default async function DashboardPage() {
                   Admin Dashboard <Icon.ArrowRight className="w-4 h-4" />
                 </Link>
               )}
-              <button className="w-full text-left px-4 py-3 rounded-xl bg-hsh-light hover:bg-hsh-cyan/10 text-hsh-navy/80 hover:text-hsh-navy transition-all text-sm font-bold flex items-center justify-between">
+              <Link href="/dashboard/payments" className="w-full text-left px-4 py-3 rounded-xl bg-hsh-light hover:bg-hsh-cyan/10 text-hsh-navy/80 hover:text-hsh-navy transition-all text-sm font-bold flex items-center justify-between">
                 Membership Dues <Icon.ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
               <button className="w-full text-left px-4 py-3 rounded-xl bg-hsh-light hover:bg-hsh-cyan/10 text-hsh-navy/80 hover:text-hsh-navy transition-all text-sm font-bold flex items-center justify-between">
                 Member Directory <Icon.ArrowRight className="w-4 h-4" />
               </button>

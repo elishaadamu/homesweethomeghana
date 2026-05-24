@@ -216,11 +216,16 @@ function ApplyFormContent() {
       .finally(() => setLoadingCountries(false));
   }, []);
 
+  const [isVerified, setIsVerified] = useState(false);
+
   /* Check existing application */
   useEffect(() => {
     fetch("/api/membership/apply")
       .then(res => res.json())
       .then(data => {
+        if (data.isVerified) {
+          setIsVerified(true);
+        }
         if (data.application) {
           setExistingApplication(data.application);
           setStep(4);
@@ -569,13 +574,21 @@ function ApplyFormContent() {
                 <div className="w-20 h-20 bg-hsh-cyan/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Icon.Check className="w-10 h-10 text-hsh-cyan" />
                 </div>
+                
                 <h2 className="font-outfit text-3xl font-black text-hsh-dark-text mb-4">
-                  Application Submitted!
+                  {isVerified ? "You are a Verified Member!" : "Application Submitted!"}
                 </h2>
                 <p className="text-hsh-muted text-[0.95rem] leading-relaxed mb-6 max-w-lg mx-auto">
-                  Thank you for applying to join the Home Sweet Home Ghana Network. 
-                  {isDiaspora && " We noticed you reside outside Ghana, so you'll be joining as a Diaspora Member! "}
-                  Please complete your membership fee payment to finalize your application.
+                  {isVerified 
+                    ? "Congratulations! Your membership is fully verified and your dues are up to date. You can now access all member features."
+                    : (
+                      <>
+                        Thank you for applying to join the Home Sweet Home Ghana Network. 
+                        {isDiaspora && " We noticed you reside outside Ghana, so you'll be joining as a Diaspora Member! "}
+                        Please complete your membership fee payment to finalize your application.
+                      </>
+                    )
+                  }
                 </p>
                 
                 <div className="bg-hsh-light border-[1.5px] border-[#D8E0F0] rounded-[16px] p-6 mb-8 max-w-sm mx-auto flex flex-col gap-5">
@@ -591,14 +604,23 @@ function ApplyFormContent() {
                   )}
                 </div>
 
-                <button 
-                  onClick={handlePayment}
-                  disabled={isPaying}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-cyan px-10 py-3.5 font-bold text-base text-hsh-navy font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-md shadow-hsh-cyan/15 cursor-pointer disabled:opacity-50"
-                >
-                  <Icon.Send className="w-5 h-5" />
-                  {isPaying ? "Initializing..." : (isDiaspora ? "Pay with PayPal" : "Pay with Paystack")}
-                </button>
+                {!isVerified ? (
+                  <button 
+                    onClick={handlePayment}
+                    disabled={isPaying}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-cyan px-10 py-3.5 font-bold text-base text-hsh-navy font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-md shadow-hsh-cyan/15 cursor-pointer disabled:opacity-50"
+                  >
+                    <Icon.Send className="w-5 h-5" />
+                    {isPaying ? "Initializing..." : (isDiaspora ? "Pay with PayPal" : "Pay with Paystack")}
+                  </button>
+                ) : (
+                  <button 
+                    onClick={() => router.push("/dashboard")}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-hsh-navy px-10 py-3.5 font-bold text-base text-white font-outfit transition-transform duration-200 hover:scale-105 active:scale-95 shadow-md cursor-pointer"
+                  >
+                    Return to Dashboard
+                  </button>
+                )}
               </div>
             )}
 

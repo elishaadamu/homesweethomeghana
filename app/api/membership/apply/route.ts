@@ -134,7 +134,10 @@ export async function GET(req: Request) {
       );
     }
 
-    return NextResponse.json({ application: user.membershipApplication }, { status: 200 });
+    return NextResponse.json({ 
+      application: user.membershipApplication,
+      isVerified: user.isVerified 
+    }, { status: 200 });
   } catch (error: any) {
     console.error("Fetch Membership Application Error:", error);
     return NextResponse.json(

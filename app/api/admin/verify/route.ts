@@ -26,10 +26,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing target user ID" }, { status: 400 });
     }
 
-    // Update the target user's verified status
+    // Calculate expiration date (+1 year from today)
+    const validUntil = new Date();
+    validUntil.setFullYear(validUntil.getFullYear() + 1);
+
+    // Update the target user's verified status and dues
     await prisma.user.update({
       where: { id: targetUserId },
-      data: { isVerified: true },
+      data: { 
+        isVerified: true,
+        duesValidUntil: validUntil
+      },
     });
 
     // Also update their membership application if it exists
@@ -37,6 +44,37 @@ export async function POST(req: Request) {
       where: { userId: targetUserId },
       data: { status: "Verified" }
     });
+
+    // Find any pending payments
+    const pendingPayments = await prisma.payment.findMany({
+      where: { userId: targetUserId, status: "PENDING" }
+    });
+
+    if (pendingPayments.length > 0) {
+      // Clean up any pending payments and mark them as manual
+      await prisma.payment.updateMany({
+        where: { 
+          userId: targetUserId,
+          status: "PENDING"
+        },
+        data: { 
+          status: "PAID",
+          provider: "MANUALLY" 
+        } 
+      });
+    } else {
+      // Create a manual payment record so it shows up in their table
+      await prisma.payment.create({
+        data: {
+          userId: targetUserId,
+          amount: 0,
+          currency: "USD",
+          provider: "MANUALLY",
+          reference: "MANUAL_" + Date.now(),
+          status: "PAID"
+        }
+      });
+    }
 
     return NextResponse.json({ success: true, message: "User successfully verified" }, { status: 200 });
   } catch (error: any) {
