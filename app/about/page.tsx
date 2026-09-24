@@ -1,12 +1,26 @@
-"use client";
+import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import About from "../components/About";
 import FoundersMessage from "../components/FoundersMessage";
 import Purpose from "../components/Purpose";
 import WhyJoin from "../components/WhyJoin";
 import Footer from "../components/Footer";
-
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "About Us | Mission, Vision & Ghanaian Heritage",
+  description:
+    "Learn about Home Sweet Home Ghana Network — our history, leadership, vision, and mission to connect Ghanaians worldwide through community, culture, and charitable impact.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Home Sweet Home Ghana Network",
+    description:
+      "Discover our mission, vision, leadership, and humanitarian outreach uniting Ghanaians across the globe.",
+    url: "/about",
+  },
+};
 
 export default function AboutPage() {
   return (

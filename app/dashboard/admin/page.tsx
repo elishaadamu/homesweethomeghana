@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
             </thead>
             <tbody className="divide-y divide-hsh-navy/5">
               {users.map((user) => {
-                const hasPaidDues = user.duesValidUntil && new Date(user.duesValidUntil) > new Date();
+                const hasPaidDues = Boolean(user.duesValidUntil && new Date(user.duesValidUntil) > new Date());
                 const appStatus = user.membershipApplication?.status || "No Application";
 
                 return (
